@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import route from './route.reducer';
-import users from './users.reducer';
+import levels from './levels.reducer';
 
 export default combineReducers({
     route,
-    users
+    levels
 });
