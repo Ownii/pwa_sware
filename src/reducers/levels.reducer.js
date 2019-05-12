@@ -12,7 +12,7 @@ const initialState = Map({
             id: 1,
             possibleIn: 10,
             size: 5,
-            blocks: [
+            blocks: List.of(
                 {
                     type: BLOCK_TYPE_MOVE,
                     color: COLOR_RED,
@@ -25,7 +25,7 @@ const initialState = Map({
                     x: 4,
                     y: 4
                 }
-            ]
+            )
         })
     )
 });

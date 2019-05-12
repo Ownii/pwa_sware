@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 import { List } from 'immutable';
 
 import PropTypes from 'prop-types';
+import GameContainer from './game.container';
 
 export class Home extends Component {
     render() {
-        return <div className={'flex items-start'}>Hello Home.</div>;
+        const { levels } = this.props;
+        return (
+            <div className={'flex items-start'}>
+                <GameContainer level={levels.get(0)} />
+            </div>
+        );
     }
 }
 const mapDispatchToProps = () => {
