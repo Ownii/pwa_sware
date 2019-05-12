@@ -9,7 +9,7 @@ export class Home extends Component {
     render() {
         const { levels } = this.props;
         return (
-            <div className={'flex items-start'}>
+            <div className={'flex items-start w-80 m-auto mt-8'}>
                 <GameContainer level={levels.get(0)} />
             </div>
         );

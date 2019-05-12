@@ -3,7 +3,24 @@ import PropTypes from 'prop-types';
 
 class Card extends Component {
     render() {
-        return <div />;
+        const { top, value, bottom } = this.props;
+        return (
+            <div
+                className={
+                    'flex flex-col items-center bg-white rounded py-4 w-24'
+                }
+            >
+                <span className={'text-grey-dark text-xs'}>
+                    {top.toUpperCase()}
+                </span>
+                <span className={'my-1 text-3xl'}>{value.toUpperCase()}</span>
+                {bottom && (
+                    <span className={'text-grey-dark text-xs'}>
+                        {bottom.toUpperCase()}
+                    </span>
+                )}
+            </div>
+        );
     }
 }
 

@@ -11,13 +11,15 @@ class GameContainer extends Component {
         const size = level.get('size');
         const blocks = level.get('blocks');
         return (
-            <div>
-                <div className={'flex flex-row'}>
+            <div className={'w-full'}>
+                <div className={'flex flex-row justify-between w-full'}>
+                    <Card top={'Züge'} value={'0'} />
                     <Card
                         top={'Möglich in'}
-                        value={possibleIn}
+                        value={possibleIn.toString()}
                         bottom={'Zügen'}
                     />
+                    <Card top={'Reset'} value={'>'} />
                 </div>
                 <Game size={size} blocks={blocks} />
             </div>
