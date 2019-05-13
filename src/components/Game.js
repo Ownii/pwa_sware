@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
-import { COLOR, alphaColor, BLOCK_TYPE_TARGET } from '../utils/constants';
+import { COLOR, BLOCK_TYPE_TARGET } from '../utils/constants';
 
 function rect(props) {
     const { ctx, x, y, width, height, color, alpha } = props;
