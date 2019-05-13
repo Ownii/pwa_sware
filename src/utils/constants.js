@@ -19,3 +19,11 @@ export const COLOR = {
     [COLOR_LIME]: '#CDDC39',
     [COLOR_GREY]: '#9E9E9E'
 };
+
+export const alphaColor = (color, alpha) => {
+    color = color.replace('#', '');
+    if (color.length === 8) color = color.substring(2);
+    color = (alpha * 255).toString(16) + color;
+
+    return '#' + color;
+};

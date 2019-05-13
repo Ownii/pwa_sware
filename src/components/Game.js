@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
+import { COLOR, alphaColor, BLOCK_TYPE_TARGET } from '../utils/constants';
 
 function rect(props) {
-    const { ctx, x, y, width, height, color } = props;
+    const { ctx, x, y, width, height, color, alpha } = props;
     ctx.fillStyle = color;
+    ctx.globalAlpha = alpha;
     ctx.fillRect(x, y, width, height);
+    ctx.globalAlpha = 1;
 }
 
 class Game extends Component {
@@ -20,6 +23,7 @@ class Game extends Component {
     updateCanvas() {
         this.resetCanvas();
         this.drawGrid();
+        this.drawBlocks();
     }
 
     resetCanvas() {
@@ -44,28 +48,45 @@ class Game extends Component {
 
     drawGrid() {
         const { size } = this.props;
-        const ctx = this.canvas.getContext('2d');
 
         for (let x = 0; x < size; x++) {
             for (let y = 0; y < size; y++) {
-                let posX = x * this.getBlockWidth();
-                let posY = y * this.getBlockHeight();
-                posX += this.getPaddingHorizontal();
-                posY += this.getPaddingVertical();
-                let width =
-                    this.getBlockWidth() - this.getPaddingHorizontal() * 2;
-                let height =
-                    this.getBlockHeight() - this.getPaddingVertical() * 2;
-
-                rect({
-                    ctx,
-                    x: posX,
-                    y: posY,
-                    width,
-                    height,
-                    color: '#E0E0E0'
-                });
+                this.drawBlock(x, y, '#E0E0E0');
             }
+        }
+    }
+
+    drawBlock(x, y, color, alpha) {
+        const ctx = this.canvas.getContext('2d');
+        let posX = x * this.getBlockWidth();
+        let posY = y * this.getBlockHeight();
+        posX += this.getPaddingHorizontal();
+        posY += this.getPaddingVertical();
+        let width = this.getBlockWidth() - this.getPaddingHorizontal() * 2;
+        let height = this.getBlockHeight() - this.getPaddingVertical() * 2;
+
+        rect({
+            ctx,
+            x: posX,
+            y: posY,
+            width,
+            height,
+            color,
+            alpha
+        });
+    }
+
+    drawBlocks() {
+        const { blocks } = this.props;
+        for (let i = 0; i < blocks.size; i++) {
+            let block = blocks.get(i);
+            let color = COLOR[block.color];
+            this.drawBlock(
+                block.x,
+                block.y,
+                color,
+                block.type === BLOCK_TYPE_TARGET ? 0.25 : 1
+            );
         }
     }
 
