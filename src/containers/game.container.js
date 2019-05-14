@@ -10,7 +10,8 @@ class GameContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            level: this.props.level
+            level: this.props.level,
+            moves: 0
         };
     }
 
@@ -35,15 +36,18 @@ class GameContainer extends Component {
         const { level } = this.state;
         const blocks = level.get('blocks');
         let sortedBlocks = blocks.sort((a, b) => a.x - b.x);
+        let moved = false;
         for (let i = 0; i < sortedBlocks.size; i++) {
             let block = sortedBlocks.get(i);
             if (block.type === BLOCK_TYPE_MOVE) {
                 while (!this.getBlockAt(block.x + stepX, block.y + stepY)) {
                     block.x += stepX;
                     block.y += stepY;
+                    moved = true;
                 }
             }
         }
+        if (moved) this.setState({ moves: this.state.moves + 1 });
         this.forceUpdate();
     }
 
@@ -64,7 +68,7 @@ class GameContainer extends Component {
         return false;
     }
     render() {
-        const { level } = this.state;
+        const { level, moves } = this.state;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
@@ -79,7 +83,7 @@ class GameContainer extends Component {
         return (
             <div className={'w-full'}>
                 <div className={'flex flex-row justify-between w-full'}>
-                    <Card top={'Züge'} value={'0'} />
+                    <Card top={'Züge'} value={moves.toString()} />
                     <Card
                         top={'Möglich in'}
                         value={possibleIn.toString()}

@@ -32,6 +32,12 @@ const initialState = Map({
                     color: COLOR_GREY,
                     x: 4,
                     y: 3
+                },
+                {
+                    type: BLOCK_TYPE_WALL,
+                    color: COLOR_GREY,
+                    x: 0,
+                    y: 4
                 }
             )
         })
