@@ -3,7 +3,9 @@ import { FINISH_LEVEL } from '../actions/levels.actions';
 import {
     BLOCK_TYPE_MOVE,
     COLOR_RED,
-    BLOCK_TYPE_TARGET
+    BLOCK_TYPE_TARGET,
+    BLOCK_TYPE_WALL,
+    COLOR_GREY
 } from '../utils/constants';
 
 const initialState = Map({
@@ -24,6 +26,12 @@ const initialState = Map({
                     color: COLOR_RED,
                     x: 4,
                     y: 4
+                },
+                {
+                    type: BLOCK_TYPE_WALL,
+                    color: COLOR_GREY,
+                    x: 4,
+                    y: 3
                 }
             )
         })

@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import Card from '../components/Card';
 import Game from '../components/Game';
-import { BLOCK_TYPE_MOVE } from '../utils/constants';
+import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
 
 class GameContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            level: this.props.level
+        };
+    }
+
     componentDidMount() {
         this.moveTop();
     }
@@ -25,7 +32,7 @@ class GameContainer extends Component {
     }
 
     move(stepX, stepY) {
-        const { level } = this.props;
+        const { level } = this.state;
         const blocks = level.get('blocks');
         let sortedBlocks = blocks.sort((a, b) => a.x - b.x);
         for (let i = 0; i < sortedBlocks.size; i++) {
@@ -41,18 +48,23 @@ class GameContainer extends Component {
     }
 
     getBlockAt(x, y) {
-        const { level } = this.props;
+        const { level } = this.state;
         const blocks = level.get('blocks');
         const size = level.get('size');
         if (x >= size || y >= size || y < 0 || x < 0) return true;
         for (let i = 0; i < blocks.size; i++) {
             let block = blocks.get(i);
-            if (block.x === x && block.y === y) return true;
+            if (
+                block.x === x &&
+                block.y === y &&
+                block.type !== BLOCK_TYPE_TARGET
+            )
+                return true;
         }
         return false;
     }
     render() {
-        const { level } = this.props;
+        const { level } = this.state;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
