@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import Card from '../components/Card';
 import Game from '../components/Game';
 import { BLOCK_TYPE_MOVE } from '../utils/constants';
-import Swipe from 'react-easy-swipe';
+import { Swipeable } from 'react-swipeable';
 
 class GameContainer extends Component {
     componentDidMount() {
@@ -51,22 +51,19 @@ class GameContainer extends Component {
         }
         return false;
     }
-
-    onSwipeStart() {
-        console.log('onSwipeStart');
-    }
-    onSwipeEnd() {
-        console.log('onSwipeEnd');
-    }
-    onSwipeMove() {
-        console.log('onSwipeMove');
-    }
-
     render() {
         const { level } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
+        const config = {
+            onSwipedLeft: () => this.moveLeft(),
+            onSwipedRight: () => this.moveRight(),
+            onSwipedUp: () => this.moveTop(),
+            onSwipedDown: () => this.moveBottom(),
+            preventDefaultTouchmoveEvent: true,
+            trackMouse: true
+        };
         return (
             <div className={'w-full'}>
                 <div className={'flex flex-row justify-between w-full'}>
@@ -78,13 +75,9 @@ class GameContainer extends Component {
                     />
                     <Card top={'Reset'} value={'>'} />
                 </div>
-                <Swipe
-                    onSwipeStart={this.onSwipeEnd}
-                    onSwipeMove={this.onSwipeEnd}
-                    onSwipeEnd={this.onSwipeEnd}
-                >
+                <Swipeable {...config}>
                     <Game size={size} blocks={blocks} />
-                </Swipe>
+                </Swipeable>
             </div>
         );
     }

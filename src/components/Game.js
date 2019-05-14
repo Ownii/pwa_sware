@@ -28,7 +28,7 @@ class Game extends Component {
 
     resetCanvas() {
         const ctx = this.canvas.getContext('2d');
-        ctx.clearRect(0, 0, this.getBlockWidth(), this.getBlockHeight());
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     getBlockWidth() {
