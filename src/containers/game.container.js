@@ -55,6 +55,7 @@ class GameContainer extends Component {
             });
         }
         this.forceUpdate();
+        this.checkIfFinished();
     }
 
     getBlockAt(x, y) {
@@ -69,10 +70,31 @@ class GameContainer extends Component {
                 block.y === y &&
                 block.type !== BLOCK_TYPE_TARGET
             )
-                return true;
+                return block;
         }
         return false;
     }
+
+    checkIfFinished() {
+        const { level } = this.state;
+        const blocks = level.get('blocks');
+        for (let i = 0; i < blocks.size; i++) {
+            let block = blocks.get(i);
+            if (
+                block.type === BLOCK_TYPE_TARGET &&
+                this.getBlockAt(block.x, block.y).color !== block.color
+            ) {
+                return false;
+            }
+        }
+
+        this.finish();
+    }
+
+    finish() {
+        console.log('finish');
+    }
+
     render() {
         const { level, moves, anim } = this.state;
         const possibleIn = level.get('possibleIn');
@@ -84,7 +106,8 @@ class GameContainer extends Component {
             onSwipedUp: () => this.moveTop(),
             onSwipedDown: () => this.moveBottom(),
             preventDefaultTouchmoveEvent: true,
-            trackMouse: true
+            trackMouse: true,
+            delta: 50
         };
         return (
             <div className={'w-full'}>
