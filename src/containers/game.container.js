@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import Card from '../components/Card';
-import Game from '../components/Game';
+import Game from '../components/AnimGame';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
 
@@ -40,6 +40,8 @@ class GameContainer extends Component {
         for (let i = 0; i < sortedBlocks.size; i++) {
             let block = sortedBlocks.get(i);
             if (block.type === BLOCK_TYPE_MOVE) {
+                block.lastX = block.x;
+                block.lastY = block.y;
                 while (!this.getBlockAt(block.x + stepX, block.y + stepY)) {
                     block.x += stepX;
                     block.y += stepY;
@@ -47,7 +49,11 @@ class GameContainer extends Component {
                 }
             }
         }
-        if (moved) this.setState({ moves: this.state.moves + 1 });
+        if (moved) {
+            this.setState({
+                moves: this.state.moves + 1
+            });
+        }
         this.forceUpdate();
     }
 
@@ -68,7 +74,7 @@ class GameContainer extends Component {
         return false;
     }
     render() {
-        const { level, moves } = this.state;
+        const { level, moves, anim } = this.state;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
@@ -92,7 +98,7 @@ class GameContainer extends Component {
                     <Card top={'Reset'} value={'>'} />
                 </div>
                 <Swipeable {...config}>
-                    <Game size={size} blocks={blocks} />
+                    <Game size={size} blocks={blocks} anim={moves} />
                 </Swipeable>
             </div>
         );

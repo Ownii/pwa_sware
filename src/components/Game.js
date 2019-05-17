@@ -24,6 +24,14 @@ class Game extends Component {
         this.resetCanvas();
         this.drawGrid();
         this.drawBlocks();
+        //this.test();
+    }
+
+    test() {
+        const { anim } = this.props;
+        const ctx = this.canvas.getContext('2d');
+        ctx.font = '30px Arial';
+        ctx.fillText('' + anim, 50, 50);
     }
 
     resetCanvas() {
@@ -77,13 +85,21 @@ class Game extends Component {
     }
 
     drawBlocks() {
-        const { blocks } = this.props;
+        const { blocks, anim, animValue } = this.props;
         for (let i = 0; i < blocks.size; i++) {
             let block = blocks.get(i);
             let color = COLOR[block.color];
+            let x = block.x;
+            let y = block.y;
+            if (block.lastX != null) {
+                x = block.lastX + (block.x - block.lastX) * (anim - animValue);
+            }
+            if (block.lastY != null) {
+                y = block.lastY + (block.y - block.lastY) * (anim - animValue);
+            }
             this.drawBlock(
-                block.x,
-                block.y,
+                x,
+                y,
                 color,
                 block.type === BLOCK_TYPE_TARGET ? 0.25 : 1
             );
@@ -105,7 +121,9 @@ class Game extends Component {
 
 Game.propTypes = {
     size: PropTypes.number.isRequired,
-    blocks: PropTypes.instanceOf(List).isRequired
+    blocks: PropTypes.instanceOf(List).isRequired,
+    anim: PropTypes.object,
+    animValue: PropTypes.number
 };
 
 export default Game;
