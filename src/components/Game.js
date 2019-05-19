@@ -122,7 +122,7 @@ class Game extends Component {
 Game.propTypes = {
     size: PropTypes.number.isRequired,
     blocks: PropTypes.instanceOf(List).isRequired,
-    anim: PropTypes.object,
+    anim: PropTypes.number,
     animValue: PropTypes.number
 };
 

@@ -5,7 +5,9 @@ import {
     COLOR_RED,
     BLOCK_TYPE_TARGET,
     BLOCK_TYPE_WALL,
-    COLOR_GREY
+    COLOR_GREY,
+    COLOR_LIME,
+    COLOR_BLUE
 } from '../utils/constants';
 
 const initialState = Map({
@@ -20,6 +22,18 @@ const initialState = Map({
                     color: COLOR_RED,
                     x: 0,
                     y: 0
+                },
+                {
+                    type: BLOCK_TYPE_MOVE,
+                    color: COLOR_LIME,
+                    x: 1,
+                    y: 0
+                },
+                {
+                    type: BLOCK_TYPE_MOVE,
+                    color: COLOR_BLUE,
+                    x: 0,
+                    y: 1
                 },
                 {
                     type: BLOCK_TYPE_TARGET,

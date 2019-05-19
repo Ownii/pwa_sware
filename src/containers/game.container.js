@@ -35,7 +35,9 @@ class GameContainer extends Component {
     move(stepX, stepY) {
         const { level } = this.state;
         const blocks = level.get('blocks');
-        let sortedBlocks = blocks.sort((a, b) => a.x - b.x);
+        let movableBlocks = blocks.filter(b => b.type === BLOCK_TYPE_MOVE);
+        let sortedBlocks = movableBlocks.sort((a, b) => (b.x - a.x) * stepX);
+        sortedBlocks = sortedBlocks.sort((a, b) => (b.y - a.y) * stepY);
         let moved = false;
         for (let i = 0; i < sortedBlocks.size; i++) {
             let block = sortedBlocks.get(i);
@@ -91,12 +93,10 @@ class GameContainer extends Component {
         this.finish();
     }
 
-    finish() {
-        console.log('finish');
-    }
+    finish() {}
 
     render() {
-        const { level, moves, anim } = this.state;
+        const { level, moves } = this.state;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
