@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --progress --env=dev",
     "dev-local": "webpack-dev-server --hot --progress --env=dev-local",
-    "build": "webpack --progress --env=prod",
+    "build:stage": "webpack --progress --env=dev",
+    "build:prod": "webpack --progress --env=prod",
     "test": "jest",
     "test-watch": "jest --watch"
   },
