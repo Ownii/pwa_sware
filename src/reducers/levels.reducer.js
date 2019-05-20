@@ -14,7 +14,7 @@ const initialState = Map({
     levels: List.of(
         Map({
             id: 1,
-            possibleIn: 10,
+            possibleIn: 3,
             size: 5,
             blocks: List.of(
                 {

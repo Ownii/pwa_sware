@@ -24,14 +24,6 @@ class Game extends Component {
         this.resetCanvas();
         this.drawGrid();
         this.drawBlocks();
-        //this.test();
-    }
-
-    test() {
-        const { anim } = this.props;
-        const ctx = this.canvas.getContext('2d');
-        ctx.font = '30px Arial';
-        ctx.fillText('' + anim, 50, 50);
     }
 
     resetCanvas() {
@@ -86,8 +78,9 @@ class Game extends Component {
 
     drawBlocks() {
         const { blocks, anim, animValue } = this.props;
-        for (let i = 0; i < blocks.size; i++) {
-            let block = blocks.get(i);
+        let sortedBlocks = blocks.sort((a, b) => a.type - b.type);
+        for (let i = 0; i < sortedBlocks.size; i++) {
+            let block = sortedBlocks.get(i);
             let color = COLOR[block.color];
             let x = block.x;
             let y = block.y;

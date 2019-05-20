@@ -5,6 +5,7 @@ import Card from '../components/Card';
 import Game from '../components/AnimGame';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
+import FinishGame from '../components/FinishGame';
 
 class GameContainer extends Component {
     constructor(props) {
@@ -89,11 +90,8 @@ class GameContainer extends Component {
                 return false;
             }
         }
-
-        this.finish();
+        return true;
     }
-
-    finish() {}
 
     render() {
         const { level, moves } = this.state;
@@ -101,17 +99,20 @@ class GameContainer extends Component {
         const size = level.get('size');
         const blocks = level.get('blocks');
         const config = {
-            onSwipedLeft: () => this.moveLeft(),
-            onSwipedRight: () => this.moveRight(),
-            onSwipedUp: () => this.moveTop(),
-            onSwipedDown: () => this.moveBottom(),
+            onSwipedLeft: this.moveLeft.bind(this),
+            onSwipedRight: this.moveRight.bind(this),
+            onSwipedUp: this.moveTop.bind(this),
+            onSwipedDown: this.moveBottom.bind(this),
             preventDefaultTouchmoveEvent: true,
             trackMouse: true,
             delta: 50
         };
         return (
             <div className={'w-full'}>
-                <div className={'flex flex-row justify-between w-full'}>
+                {this.checkIfFinished() && (
+                    <FinishGame moves={moves} possibleIn={possibleIn} />
+                )}
+                <div className={'flex flex-row justify-between w-full mt-8'}>
                     <Card top={'Züge'} value={moves.toString()} />
                     <Card
                         top={'Möglich in'}
