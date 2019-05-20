@@ -78,23 +78,27 @@ class Game extends Component {
 
     drawBlocks() {
         const { blocks, anim, animValue } = this.props;
-        let sortedBlocks = blocks.sort((a, b) => a.type - b.type);
+        let sortedBlocks = blocks.sort((a, b) => a.get('type') - b.get('type'));
         for (let i = 0; i < sortedBlocks.size; i++) {
             let block = sortedBlocks.get(i);
-            let color = COLOR[block.color];
-            let x = block.x;
-            let y = block.y;
-            if (block.lastX != null) {
-                x = block.lastX + (block.x - block.lastX) * (anim - animValue);
+            let color = COLOR[block.get('color')];
+            let x = block.get('x');
+            let y = block.get('y');
+            if (block.get('lastX') != null) {
+                x =
+                    block.get('lastX') +
+                    (block.get('x') - block.get('lastX')) * (anim - animValue);
             }
-            if (block.lastY != null) {
-                y = block.lastY + (block.y - block.lastY) * (anim - animValue);
+            if (block.get('lastY') != null) {
+                y =
+                    block.get('lastY') +
+                    (block.get('y') - block.get('lastY')) * (anim - animValue);
             }
             this.drawBlock(
                 x,
                 y,
                 color,
-                block.type === BLOCK_TYPE_TARGET ? 0.25 : 1
+                block.get('type') === BLOCK_TYPE_TARGET ? 0.25 : 1
             );
         }
     }

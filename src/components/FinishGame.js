@@ -5,7 +5,7 @@ import { mdiArrowRight, mdiApps } from '@mdi/js';
 
 class FinishGame extends Component {
     render() {
-        const { moves, possibleIn } = this.props;
+        const { moves, possibleIn, onRestart } = this.props;
         return (
             <div
                 className="absolute w-full h-full text-center flex flex-col justify-between"
@@ -25,12 +25,17 @@ class FinishGame extends Component {
                         <p>
                             Es ist möglich gewesen in <b>{possibleIn}</b> Zügen
                         </p>
-                        <Button className="mt-4" text={'Erneut versuchen'} />
+                        <Button
+                            className="mt-4"
+                            text={'Erneut versuchen'}
+                            onClick={onRestart}
+                        />
                     </div>
                 )}
-                {moves <= possibleIn && (
+                {moves === possibleIn && (
                     <p>Super du hast die optimale Lösung gefunden</p>
                 )}
+                {moves <= possibleIn && <p>Keiner mag Schummler</p>}
                 <div className="flex flex-row justify-between p-2">
                     <Button icon={mdiApps} />
                     <Button icon={mdiArrowRight} />
@@ -42,7 +47,8 @@ class FinishGame extends Component {
 
 FinishGame.propTypes = {
     moves: PropTypes.number.isRequired,
-    possibleIn: PropTypes.number.isRequired
+    possibleIn: PropTypes.number.isRequired,
+    onRestart: PropTypes.func
 };
 
 export default FinishGame;
