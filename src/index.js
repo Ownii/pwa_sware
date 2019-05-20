@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './styles.css';
+import registerServiceWorker from './registerServiceWorker';
 
 const renderApp = () => {
     const Router = require('./containers/router.container').default;
@@ -20,3 +21,4 @@ if (module.hot) {
     });
 }
 renderApp();
+registerServiceWorker();
