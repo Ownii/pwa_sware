@@ -65,6 +65,9 @@ module.exports = env => ({
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html',
+            favicon: 'public/icon_192.ico',
+            title: 'Sware',
+            manifest: 'public/manifest.json'
         }),
         new ExtractTextPlugin('style.css')
     ]
