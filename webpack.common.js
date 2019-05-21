@@ -2,6 +2,7 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = env => ({
     entry: [
@@ -66,8 +67,20 @@ module.exports = env => ({
         new HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/icon_192.ico',
-            title: 'Sware',
-            manifest: 'public/manifest.json'
+            title: 'Sware'
+        }),
+        new WebpackPwaManifest({
+            name: 'Sware',
+            short_name: 'Sware',
+            description: 'Move the blocks to their target',
+            background_color: '#ffffff',
+            crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+            icons: [
+                {
+                    src: path.resolve('src/assets/icon_512.png'),
+                    sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+                }
+            ]
         }),
         new ExtractTextPlugin('style.css')
     ]
