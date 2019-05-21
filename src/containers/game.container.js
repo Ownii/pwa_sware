@@ -11,7 +11,7 @@ class GameContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            level: fromJS(this.props.level.toJS()),
+            level: fromJS(props.level.toJS()),
             moves: 0
         };
     }
@@ -103,7 +103,7 @@ class GameContainer extends Component {
     restart() {
         const { level } = this.props;
         this.setState({
-            level: level,
+            level: fromJS(level.toJS()),
             moves: 0
         });
     }
