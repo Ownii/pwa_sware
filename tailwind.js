@@ -50,7 +50,7 @@ var colors = {
     grey: '#b8c2cc',
     'grey-dark': '#8795a1',
     'grey-darker': '#606f7b',
-    'grey-darkest': '#3d4852'
+    'grey-darkest': '#3d4852',
 };
 
 module.exports = {
@@ -537,6 +537,9 @@ module.exports = {
         '4': '1rem',
         '6': '1.5rem',
         '8': '2rem',
+        '10': '2.5rem',
+        '12': '3rem',
+        '16': '4rem',
         '18px': '18px'
     },
 

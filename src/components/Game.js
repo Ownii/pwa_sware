@@ -24,14 +24,6 @@ class Game extends Component {
         this.resetCanvas();
         this.drawGrid();
         this.drawBlocks();
-        //this.test();
-    }
-
-    test() {
-        const { anim } = this.props;
-        const ctx = this.canvas.getContext('2d');
-        ctx.font = '30px Arial';
-        ctx.fillText('' + anim, 50, 50);
     }
 
     resetCanvas() {
@@ -86,22 +78,27 @@ class Game extends Component {
 
     drawBlocks() {
         const { blocks, anim, animValue } = this.props;
-        for (let i = 0; i < blocks.size; i++) {
-            let block = blocks.get(i);
-            let color = COLOR[block.color];
-            let x = block.x;
-            let y = block.y;
-            if (block.lastX != null) {
-                x = block.lastX + (block.x - block.lastX) * (anim - animValue);
+        let sortedBlocks = blocks.sort((a, b) => a.get('type') - b.get('type'));
+        for (let i = 0; i < sortedBlocks.size; i++) {
+            let block = sortedBlocks.get(i);
+            let color = COLOR[block.get('color')];
+            let x = block.get('x');
+            let y = block.get('y');
+            if (block.get('lastX') != null) {
+                x =
+                    block.get('lastX') +
+                    (block.get('x') - block.get('lastX')) * (anim - animValue);
             }
-            if (block.lastY != null) {
-                y = block.lastY + (block.y - block.lastY) * (anim - animValue);
+            if (block.get('lastY') != null) {
+                y =
+                    block.get('lastY') +
+                    (block.get('y') - block.get('lastY')) * (anim - animValue);
             }
             this.drawBlock(
                 x,
                 y,
                 color,
-                block.type === BLOCK_TYPE_TARGET ? 0.25 : 1
+                block.get('type') === BLOCK_TYPE_TARGET ? 0.25 : 1
             );
         }
     }
@@ -122,7 +119,7 @@ class Game extends Component {
 Game.propTypes = {
     size: PropTypes.number.isRequired,
     blocks: PropTypes.instanceOf(List).isRequired,
-    anim: PropTypes.object,
+    anim: PropTypes.number,
     animValue: PropTypes.number
 };
 

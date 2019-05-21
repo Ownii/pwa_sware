@@ -9,7 +9,7 @@ export class Home extends Component {
     render() {
         const { levels } = this.props;
         return (
-            <div className={'flex items-start w-80 m-auto mt-8'}>
+            <div className={'flex items-start w-80 m-auto'}>
                 <GameContainer level={levels.get(0)} />
             </div>
         );
@@ -27,4 +27,7 @@ Home.propTypes = {
     levels: PropTypes.instanceOf(List)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home);
