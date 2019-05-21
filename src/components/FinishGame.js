@@ -25,17 +25,17 @@ class FinishGame extends Component {
                         <p>
                             Es ist möglich gewesen in <b>{possibleIn}</b> Zügen
                         </p>
-                        <Button
-                            className="mt-4"
-                            text={'Erneut versuchen'}
-                            onClick={onRestart}
-                        />
                     </div>
                 )}
                 {moves === possibleIn && (
                     <p>Super du hast die optimale Lösung gefunden</p>
                 )}
-                {moves <= possibleIn && <p>Keiner mag Schummler</p>}
+                {moves < possibleIn && <p>Keiner mag Schummler</p>}
+                <Button
+                    className="mt-4"
+                    text={'Erneut versuchen'}
+                    onClick={onRestart}
+                />
                 <div className="flex flex-row justify-between p-2">
                     <Button icon={mdiApps} />
                     <Button icon={mdiArrowRight} />
