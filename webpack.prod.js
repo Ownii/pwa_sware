@@ -8,13 +8,11 @@ module.exports = function(env) {
         plugins: [
             new UglifyJSPlugin({
                 compress: {
-                    drop_console: true
+                    drop_console: false
                 }
             }),
             new webpack.DefinePlugin({
-                API_TARGET: JSON.stringify(
-                    'https://insert-your-online-api-here.net/'
-                ),
+                API_TARGET: JSON.stringify(''),
                 'process.env': {
                     NODE_ENV: '"production"'
                 }
