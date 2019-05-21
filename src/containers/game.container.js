@@ -14,7 +14,6 @@ class GameContainer extends Component {
             level: fromJS(this.props.level.toJS()),
             moves: 0
         };
-        console.log(this.state);
     }
 
     moveRight() {
@@ -33,8 +32,7 @@ class GameContainer extends Component {
     move(stepX, stepY) {
         const { level } = this.state;
         const blocks = level.get('blocks');
-        let movableBlocks = blocks.filter(b => b.type === BLOCK_TYPE_MOVE);
-        let sortedBlocks = movableBlocks.sort(
+        let sortedBlocks = blocks.sort(
             (a, b) => (b.get('x') - a.get('x')) * stepX
         );
         sortedBlocks = sortedBlocks.sort(
@@ -44,32 +42,33 @@ class GameContainer extends Component {
         for (let i = 0; i < sortedBlocks.size; i++) {
             let block = sortedBlocks.get(i);
             if (block.get('type') === BLOCK_TYPE_MOVE) {
-                block.set('lastX', block.get('x'));
-                block.set('lastY', block.get('y'));
+                block = block.set('lastX', block.get('x'));
+                block = block.set('lastY', block.get('y'));
                 while (
                     !this.getBlockAt(
                         block.get('x') + stepX,
-                        block.get('y') + stepY
+                        block.get('y') + stepY,
+                        sortedBlocks
                     )
                 ) {
-                    block.set('x', block.get('x') + stepX);
-                    block.set('y', block.get('y') + stepY);
+                    block = block.set('x', block.get('x') + stepX);
+                    block = block.set('y', block.get('y') + stepY);
                     moved = true;
                 }
+                sortedBlocks = sortedBlocks.set(i, block);
             }
         }
+        this.setState({ level: level.set('blocks', sortedBlocks) });
         if (moved) {
             this.setState({
                 moves: this.state.moves + 1
             });
         }
-        this.forceUpdate();
-        this.checkIfFinished();
     }
 
-    getBlockAt(x, y) {
+    getBlockAt(x, y, _blocks) {
         const { level } = this.state;
-        const blocks = level.get('blocks');
+        const blocks = _blocks ? _blocks : level.get('blocks');
         const size = level.get('size');
         if (x >= size || y >= size || y < 0 || x < 0) return true;
         for (let i = 0; i < blocks.size; i++) {
@@ -78,8 +77,9 @@ class GameContainer extends Component {
                 block.get('x') === x &&
                 block.get('y') === y &&
                 block.get('type') !== BLOCK_TYPE_TARGET
-            )
+            ) {
                 return block;
+            }
         }
         return false;
     }
@@ -89,10 +89,10 @@ class GameContainer extends Component {
         const blocks = level.get('blocks');
         for (let i = 0; i < blocks.size; i++) {
             let block = blocks.get(i);
+            let blockAt = this.getBlockAt(block.get('x'), block.get('y'));
             if (
                 block.get('type') === BLOCK_TYPE_TARGET &&
-                this.getBlockAt(block.get('x'), block.get('y')).color !==
-                    block.get('color')
+                (!blockAt || blockAt.get('color') !== block.get('color'))
             ) {
                 return false;
             }
@@ -110,11 +110,9 @@ class GameContainer extends Component {
 
     render() {
         const { level, moves } = this.state;
-        console.log(level);
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
-        console.log(blocks);
         const config = {
             onSwipedLeft: this.moveLeft.bind(this),
             onSwipedRight: this.moveRight.bind(this),
