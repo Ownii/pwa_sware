@@ -1,4 +1,5 @@
 const path = require('path');
+const { LoaderOptionsPlugin, optimize } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -15,7 +16,8 @@ module.exports = env => ({
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[name].[chunkhash].js'
     },
     module: {
         rules: [
@@ -64,6 +66,14 @@ module.exports = env => ({
         ]
     },
     plugins: [
+        new optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+        new optimize.CommonsChunkPlugin({
+            children: true,
+            async: 'common',
+            minChunks: 2
+        }),
         new HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/icon_192.png',
@@ -88,10 +98,13 @@ module.exports = env => ({
         new SWPrecacheWebpackPlugin({
             cacheId: `${pkg.name}-${pkg.version}`,
             staticFileGlobs: [path.join(path.join(__dirname, 'dist'), '**/*')],
-            logger: function() {},
             filename: 'sw.js',
             minify: false
         }),
-        new ExtractTextPlugin('style.css')
+        new ExtractTextPlugin('style.css'),
+        new LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
+        })
     ]
 });
