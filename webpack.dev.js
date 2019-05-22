@@ -14,7 +14,8 @@ module.exports = function(env) {
             new webpack.DefinePlugin({
                 API_TARGET: JSON.stringify(''),
                 'process.env': {
-                    NODE_ENV: '"development"'
+                    NODE_ENV: '"development"',
+                    PUBLIC_URL: '"https://sware-dev.ownii.com/"'
                 }
             })
         ]
