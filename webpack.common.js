@@ -77,6 +77,9 @@ module.exports = env => ({
             short_name: 'Sware',
             description: 'Move the blocks to their target',
             background_color: '#ffffff',
+            theme_color: '#ffffff',
+            start_url: '/',
+            scope: '/',
             crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
             icons: [
                 {
