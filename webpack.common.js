@@ -1,5 +1,5 @@
 const path = require('path');
-const { LoaderOptionsPlugin, optimize } = require('webpack');
+const { LoaderOptionsPlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -16,8 +16,29 @@ module.exports = env => ({
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].[chunkhash].js',
-        chunkFilename: '[name].[chunkhash].js'
+        filename: '[name].[contenthash].js'
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name(module) {
+                        // get the name. E.g. node_modules/packageName/not/this/part.js
+                        // or node_modules/packageName
+                        const packageName = module.context.match(
+                            /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                        )[1];
+
+                        // npm package names are URL-safe, but some servers don't like @ symbols
+                        return `npm.${packageName.replace('@', '')}`;
+                    }
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -66,15 +87,7 @@ module.exports = env => ({
         ]
     },
     plugins: [
-        new optimize.CommonsChunkPlugin({
-            name: 'vendor'
-        }),
-        new optimize.CommonsChunkPlugin({
-            children: true,
-            async: 'common',
-            minChunks: 2
-        }),
-        new HtmlWebpackPlugin({
+        HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/icon_192.png',
             title: 'Sware'
