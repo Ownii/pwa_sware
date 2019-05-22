@@ -87,7 +87,7 @@ module.exports = env => ({
         ]
     },
     plugins: [
-        HtmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/icon_192.png',
             title: 'Sware'
