@@ -7,6 +7,7 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 
 module.exports = env => ({
+    mode: 'development',
     entry: [
         'babel-polyfill',
         'whatwg-fetch',
@@ -18,7 +19,7 @@ module.exports = env => ({
         filename: '[name].js'
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
                 enforce: 'pre',

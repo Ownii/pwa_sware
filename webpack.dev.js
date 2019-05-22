@@ -4,6 +4,7 @@ const CommonConfig = require('./webpack.common.js');
 
 module.exports = function(env) {
     return Merge(CommonConfig(env), {
+        mode: 'production',
         devtool: 'inline-source-map',
         devServer: {
             historyApiFallback: true,

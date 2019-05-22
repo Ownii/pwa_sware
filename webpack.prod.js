@@ -5,6 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function(env) {
     return Merge(CommonConfig(env), {
+        mode: 'production',
         plugins: [
             new UglifyJSPlugin({
                 compress: {
