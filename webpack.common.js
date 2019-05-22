@@ -1,17 +1,16 @@
-
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
-
+const pkg = require('./package.json');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 module.exports = env => ({
     mode: 'development',
     entry: [
         'babel-polyfill',
         'whatwg-fetch',
-        path.join(__dirname, 'src', 'index.js'),
+        path.join(__dirname, 'src', 'index.js')
     ],
     output: {
         path: path.join(__dirname, 'dist'),
@@ -36,9 +35,7 @@ module.exports = env => ({
             },
             {
                 test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, "src"),
-                ],
+                include: [path.resolve(__dirname, 'src')],
                 use: ['babel-loader']
             },
 
@@ -69,7 +66,7 @@ module.exports = env => ({
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html',
-            favicon: 'public/icon_192.ico',
+            favicon: 'public/icon_192.png',
             title: 'Sware'
         }),
         new WebpackPwaManifest({
@@ -88,8 +85,12 @@ module.exports = env => ({
                 }
             ]
         }),
-        new ServiceWorkerWebpackPlugin({
-            entry: path.join(__dirname, 'src/sw.js'),
+        new SWPrecacheWebpackPlugin({
+            cacheId: `${pkg.name}-${pkg.version}`,
+            staticFileGlobs: [path.join(path.join(__dirname, 'dist'), '**/*')],
+            logger: function() {},
+            filename: 'sw.js',
+            minify: false
         }),
         new ExtractTextPlugin('style.css')
     ]
