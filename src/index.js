@@ -6,7 +6,7 @@ import store from './store';
 import './styles.css';
 
 if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('sw.js');
 }
 
 const renderApp = () => {

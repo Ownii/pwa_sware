@@ -25,6 +25,7 @@ module.exports = env => ({
             minSize: 0,
             cacheGroups: {
                 vendor: {
+                    maxSize: 800000,
                     test: /[\\/]node_modules[\\/]/,
                     name(module) {
                         // get the name. E.g. node_modules/packageName/not/this/part.js
