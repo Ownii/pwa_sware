@@ -101,7 +101,6 @@ module.exports = env => ({
             theme_color: '#ffffff',
             start_url: '/',
             scope: '/',
-            crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
             icons: [
                 {
                     src: path.resolve('src/assets/icon_512.png'),
