@@ -2,7 +2,9 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackPwaManifest = require('webpack-pwa-manifest');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+
 
 module.exports = env => ({
     entry: [
@@ -81,6 +83,9 @@ module.exports = env => ({
                     sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
                 }
             ]
+        }),
+        new ServiceWorkerWebpackPlugin({
+            entry: path.join(__dirname, 'src/sw.js'),
         }),
         new ExtractTextPlugin('style.css')
     ]

@@ -4,7 +4,12 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './styles.css';
-import registerServiceWorker from './registerServiceWorker';
+//import registerServiceWorker from './registerServiceWorker';
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
+if ('serviceWorker' in navigator) {
+    const registration = runtime.register();
+}
 
 const renderApp = () => {
     const Router = require('./containers/router.container').default;
@@ -21,4 +26,4 @@ if (module.hot) {
     });
 }
 renderApp();
-registerServiceWorker();
+//registerServiceWorker();
