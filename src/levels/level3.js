@@ -12,12 +12,12 @@ import {
 } from '../utils/constants';
 
 export default {
-    id: 2,
+    id: 3,
     size: 5,
-    possibleIn: 4,
+    possibleIn: 5,
     blocks: [
         {
-            x: 0,
+            x: 1,
             y: 0,
             type: BLOCK_TYPE_MOVE,
             color: COLOR_RED
@@ -39,6 +39,18 @@ export default {
             y: 0,
             type: BLOCK_TYPE_WALL,
             color: COLOR_GREY
+        },
+        {
+            x: 0,
+            y: 0,
+            type: BLOCK_TYPE_MOVE,
+            color: COLOR_GREEN
+        },
+        {
+            x: 0,
+            y: 4,
+            type: BLOCK_TYPE_TARGET,
+            color: COLOR_GREEN
         }
     ]
 };
