@@ -11,21 +11,31 @@ export class Home extends Component {
         super();
         this.state = {};
     }
+
+    onNextLevel() {
+        const { play } = this.state;
+        const { levels } = this.props;
+        if (play < levels.size) this.setState({ play: play + 1 });
+        else this.showMenu();
+    }
+
+    showMenu() {
+        this.setState({ play: undefined });
+    }
+
     render() {
         const { play } = this.state;
-        if (play) return this.renderPlayingGame();
+        if (play >= 0) return this.renderPlayingGame();
         return this.renderLevelSelection();
     }
 
     renderLevelSelection() {
         const { levels } = this.props;
         return (
-            <div className={'flex flex-row justify-around p-2 flex-wrap'}>
+            <div className={'p-2 flex content-start flex-wrap'}>
                 {levels.toJS().map((level, index) => (
                     <Level
-                        onClick={() =>
-                            this.setState({ play: levels.get(index) })
-                        }
+                        onClick={() => this.setState({ play: index })}
                         className={'m-2'}
                         key={level.id}
                         id={level.id}
@@ -37,11 +47,13 @@ export class Home extends Component {
 
     renderPlayingGame() {
         const { play } = this.state;
+        const { levels } = this.props;
         return (
             <div className={'flex items-start w-80 m-auto'}>
                 <GameContainer
-                    level={play}
-                    onBack={() => this.setState({ play: undefined })}
+                    level={levels.get(play)}
+                    onBack={() => this.showMenu()}
+                    onNextLevel={this.onNextLevel.bind(this)}
                 />
             </div>
         );

@@ -113,7 +113,7 @@ class GameContainer extends Component {
 
     render() {
         const { level, moves } = this.state;
-        const { onBack } = this.props;
+        const { onBack, onNextLevel } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
@@ -133,6 +133,8 @@ class GameContainer extends Component {
                         moves={moves}
                         possibleIn={possibleIn}
                         onRestart={this.restart.bind(this)}
+                        onBack={onBack}
+                        onNextLevel={onNextLevel}
                     />
                 )}
                 <Button
@@ -163,7 +165,8 @@ class GameContainer extends Component {
 
 GameContainer.propTypes = {
     level: PropTypes.instanceOf(Map),
-    onBack: PropTypes.func
+    onBack: PropTypes.func,
+    onNextLevel: PropTypes.func
 };
 
 export default GameContainer;

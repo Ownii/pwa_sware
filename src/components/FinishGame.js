@@ -5,7 +5,13 @@ import { mdiArrowRight, mdiApps } from '@mdi/js';
 
 class FinishGame extends Component {
     render() {
-        const { moves, possibleIn, onRestart } = this.props;
+        const {
+            moves,
+            possibleIn,
+            onRestart,
+            onBack,
+            onNextLevel
+        } = this.props;
         return (
             <div
                 className="absolute w-full h-full text-center flex flex-col justify-between"
@@ -37,8 +43,8 @@ class FinishGame extends Component {
                     onClick={onRestart}
                 />
                 <div className="flex flex-row justify-between p-2">
-                    <Button icon={mdiApps} />
-                    <Button icon={mdiArrowRight} />
+                    <Button onClick={onBack} icon={mdiApps} />
+                    <Button onClick={onNextLevel} icon={mdiArrowRight} />
                 </div>
             </div>
         );
@@ -48,7 +54,9 @@ class FinishGame extends Component {
 FinishGame.propTypes = {
     moves: PropTypes.number.isRequired,
     possibleIn: PropTypes.number.isRequired,
-    onRestart: PropTypes.func
+    onRestart: PropTypes.func,
+    onBack: PropTypes.func,
+    onNextLevel: PropTypes.func
 };
 
 export default FinishGame;
