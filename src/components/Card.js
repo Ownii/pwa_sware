@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 class Card extends Component {
     render() {
-        const { top, value, bottom } = this.props;
+        const { top, value, bottom, onClick } = this.props;
         return (
             <div
+                onClick={onClick}
                 className={
                     'flex flex-col items-center bg-white rounded py-4 w-24'
                 }
@@ -13,7 +14,7 @@ class Card extends Component {
                 <span className={'text-grey-dark text-xs'}>
                     {top.toUpperCase()}
                 </span>
-                <span className={'my-1 text-3xl'}>{value.toUpperCase()}</span>
+                <span className={'my-1 text-3xl'}>{value}</span>
                 {bottom && (
                     <span className={'text-grey-dark text-xs'}>
                         {bottom.toUpperCase()}
@@ -27,7 +28,8 @@ class Card extends Component {
 Card.propTypes = {
     top: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    bottom: PropTypes.string
+    bottom: PropTypes.string,
+    onClick: PropTypes.func
 };
 
 export default Card;

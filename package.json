@@ -6,7 +6,7 @@
   "author": "BRICKMAKERS GmbH",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.js --mode development",
+    "dev": "webpack-dev-server --config webpack.dev.js --env=dev-local",
     "dev-local": "webpack-dev-server --hot --progress --env=dev-local",
     "build:stage": "webpack --config webpack.dev.js --mode development",
     "build:prod": "webpack --config webpack.prod.js --mode production",

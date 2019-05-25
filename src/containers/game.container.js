@@ -6,6 +6,9 @@ import Game from '../components/AnimGame';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
 import FinishGame from '../components/FinishGame';
+import { mdiRestart, mdiArrowLeft } from '@mdi/js';
+import Icon from '@mdi/react';
+import Button from '../components/Button';
 
 class GameContainer extends Component {
     constructor(props) {
@@ -110,6 +113,7 @@ class GameContainer extends Component {
 
     render() {
         const { level, moves } = this.state;
+        const { onBack } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
         const blocks = level.get('blocks');
@@ -131,14 +135,23 @@ class GameContainer extends Component {
                         onRestart={this.restart.bind(this)}
                     />
                 )}
-                <div className={'flex flex-row justify-between w-full mt-8'}>
+                <Button
+                    onClick={onBack}
+                    icon={mdiArrowLeft}
+                    className={'-ml-2'}
+                />
+                <div className={'flex flex-row justify-between w-full'}>
                     <Card top={'Züge'} value={moves.toString()} />
                     <Card
                         top={'Möglich in'}
                         value={possibleIn.toString()}
                         bottom={'Zügen'}
                     />
-                    <Card top={'Reset'} value={'>'} />
+                    <Card
+                        onClick={this.restart.bind(this)}
+                        top={'Reset'}
+                        value={<Icon path={mdiRestart} size={1.4} />}
+                    />
                 </div>
                 <Swipeable {...config}>
                     <Game size={size} blocks={blocks} anim={moves} />
@@ -149,7 +162,8 @@ class GameContainer extends Component {
 }
 
 GameContainer.propTypes = {
-    level: PropTypes.instanceOf(Map)
+    level: PropTypes.instanceOf(Map),
+    onBack: PropTypes.func
 };
 
 export default GameContainer;

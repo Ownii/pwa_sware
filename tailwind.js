@@ -51,6 +51,7 @@ var colors = {
     'grey-dark': '#8795a1',
     'grey-darker': '#606f7b',
     'grey-darkest': '#3d4852',
+    primary: '#607D8B'
 };
 
 module.exports = {
@@ -114,6 +115,7 @@ module.exports = {
   */
 
     fonts: {
+        roboto: ["'Roboto', sans-serif"],
         sans: ['KPMG Light'],
         serif: ['serif'],
         mono: ['monospace'],

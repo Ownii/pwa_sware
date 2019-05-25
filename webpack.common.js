@@ -97,9 +97,10 @@ module.exports = env => ({
             name: 'Sware',
             short_name: 'Sware',
             description: 'Move the blocks to their target',
-            background_color: '#ffffff',
+            background_color: '#f0f0f0',
             theme_color: '#ffffff',
             start_url: '/',
+            orientation: 'portrait',
             scope: '/',
             icons: [
                 {
