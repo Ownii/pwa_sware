@@ -7,11 +7,20 @@ const Level = props => {
         <div
             onClick={onClick}
             className={
-                'w-16 h-16 rounded bg-white flex justify-center items-center ' +
+                'w-24 h-24 flex justify-center items-center p-2 cursor-pointer ' +
                 className
             }
+            style={{ boxSizing: 'border-box' }}
         >
-            <span className={'text-3xl font-roboto text-primary'}>{id}</span>
+            <div
+                className={
+                    'w-full h-full bg-white rounded text-center flex flex-row items-center justify-center'
+                }
+            >
+                <span className={'text-3xl font-roboto text-primary'}>
+                    {id}
+                </span>
+            </div>
         </div>
     );
 };

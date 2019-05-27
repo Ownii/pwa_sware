@@ -36,7 +36,7 @@ export class Home extends Component {
                 {levels.toJS().map((level, index) => (
                     <Level
                         onClick={() => this.setState({ play: index })}
-                        className={'m-2'}
+                        className={''}
                         key={level.id}
                         id={level.id}
                     />
