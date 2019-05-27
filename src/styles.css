@@ -1,5 +1,6 @@
 html, body {
     @apply bg-grey-lightest;
+    overscroll-behavior: contain;
 }
 
 @tailwind preflight;
