@@ -19,6 +19,10 @@ class GameContainer extends Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) this.restart();
+    }
+
     moveRight() {
         this.move(1, 0);
     }
