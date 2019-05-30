@@ -9,6 +9,9 @@ import FinishGame from '../components/FinishGame';
 import { mdiRestart, mdiArrowLeft } from '@mdi/js';
 import Icon from '@mdi/react';
 import Button from '../components/Button';
+import { finishLevel } from '../actions/levels.actions';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 class GameContainer extends Component {
     constructor(props) {
@@ -37,7 +40,8 @@ class GameContainer extends Component {
     }
 
     move(stepX, stepY) {
-        const { level } = this.state;
+        const { level, moves } = this.state;
+        const { finishLevel } = this.props;
         const blocks = level.get('blocks');
         let sortedBlocks = blocks.sort(
             (a, b) => (b.get('x') - a.get('x')) * stepX
@@ -68,8 +72,12 @@ class GameContainer extends Component {
         this.setState({ level: level.set('blocks', sortedBlocks) });
         if (moved) {
             this.setState({
-                moves: this.state.moves + 1
+                moves: moves + 1
             });
+            if (this.checkIfFinished()) {
+                console.log(level);
+                finishLevel(level.get('id'), moves + 1);
+            }
         }
     }
 
@@ -170,7 +178,21 @@ class GameContainer extends Component {
 GameContainer.propTypes = {
     level: PropTypes.instanceOf(Map),
     onBack: PropTypes.func,
-    onNextLevel: PropTypes.func
+    onNextLevel: PropTypes.func,
+    finishLevel: PropTypes.func
 };
 
-export default GameContainer;
+const mapDispatchToProps = dispatch => ({
+    finishLevel: compose(
+        dispatch,
+        finishLevel
+    )
+});
+const mapStateToProps = () => {
+    return {};
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GameContainer);

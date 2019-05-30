@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Icon from '@mdi/react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {
@@ -27,7 +28,7 @@ class Card extends Component {
 
 Card.propTypes = {
     top: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
     bottom: PropTypes.string,
     onClick: PropTypes.func
 };

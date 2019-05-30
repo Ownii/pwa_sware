@@ -3,15 +3,18 @@ import { FINISH_LEVEL } from '../actions/levels.actions';
 import allLevels from '../levels/allLevels';
 
 const initialState = Map({
-    levels: allLevels
+    levels: allLevels,
+    completions: Map({})
 });
 
 export default function(state = initialState, action) {
-    switch (action.type) {
-        case FINISH_LEVEL:
-            return state;
-
-        default:
-            return state;
+    if (action.type === FINISH_LEVEL) {
+        let { level, moves } = action.payload;
+        return state.set(
+            'completions',
+            state.get('completions').set(level, moves)
+        );
+    } else {
+        return state;
     }
 }

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
-
 import PropTypes from 'prop-types';
 import GameContainer from './game.container';
-import Level from '../components/Level';
+import LevelSelection from './levelselection.container';
 
 export class Home extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
     }
 
@@ -25,23 +24,13 @@ export class Home extends Component {
 
     render() {
         const { play } = this.state;
-        if (play >= 0) return this.renderPlayingGame();
-        return this.renderLevelSelection();
-    }
-
-    renderLevelSelection() {
         const { levels } = this.props;
+        if (play >= 0) return this.renderPlayingGame();
         return (
-            <div className={'p-2 flex content-start flex-wrap'}>
-                {levels.toJS().map((level, index) => (
-                    <Level
-                        onClick={() => this.setState({ play: index })}
-                        className={''}
-                        key={level.id}
-                        id={level.id}
-                    />
-                ))}
-            </div>
+            <LevelSelection
+                levels={levels}
+                onSelectLevel={index => this.setState({ play: index })}
+            />
         );
     }
 

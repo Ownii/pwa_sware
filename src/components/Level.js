@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '@mdi/react';
+import { mdiStar } from '@mdi/js';
 
 const Level = props => {
     const { id, completed, completedBest, className, onClick } = props;
@@ -14,19 +16,32 @@ const Level = props => {
         >
             <div
                 className={
-                    'w-full h-full bg-white rounded text-center flex flex-row items-center justify-center'
+                    'w-full h-full bg-white rounded text-center flex flex-col items-center justify-center'
                 }
             >
-                <span className={'text-3xl font-roboto text-primary'}>
+                <span
+                    className={
+                        'text-3xl font-roboto ' +
+                        (completed ? 'text-primary' : 'text-grey')
+                    }
+                >
                     {id}
                 </span>
+                {completedBest && (
+                    <span
+                        className={'absolute'}
+                        style={{ marginLeft: 25, marginTop: 25 }}
+                    >
+                        <Icon path={mdiStar} size={0.75} color={'#607D8B'} />
+                    </span>
+                )}
             </div>
         </div>
     );
 };
 
 Level.propTypes = {
-    id: PropTypes.number.isRequried,
+    id: PropTypes.number.isRequired,
     completed: PropTypes.bool,
     completedBest: PropTypes.bool,
     className: PropTypes.string,
