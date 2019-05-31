@@ -74,10 +74,7 @@ class GameContainer extends Component {
             this.setState({
                 moves: moves + 1
             });
-            if (this.checkIfFinished()) {
-                console.log(level);
-                finishLevel(level.get('id'), moves + 1);
-            }
+            if (this.checkIfFinished()) finishLevel(level.get('id'), moves + 1);
         }
     }
 

@@ -9,18 +9,19 @@ class LevelSelection extends Component {
         const { levels, completions, onSelectLevel } = this.props;
         return (
             <div className={'p-2 flex content-start flex-wrap'}>
-                {levels.toJS().map((level, index) => (
-                    <Level
-                        onClick={() => onSelectLevel(index)}
-                        className={''}
-                        key={level.id}
-                        id={level.id}
-                        completed={completions.get(level.id)}
-                        completedBest={
-                            completions.get(level.id) === level.possibleIn
-                        }
-                    />
-                ))}
+                {levels.toJS().map((level, index) => {
+                    let neededMoves = completions.get('' + level.id);
+                    return (
+                        <Level
+                            onClick={() => onSelectLevel(index)}
+                            className={''}
+                            key={level.id}
+                            id={level.id}
+                            completed={neededMoves}
+                            completedBest={neededMoves === level.possibleIn}
+                        />
+                    );
+                })}
             </div>
         );
     }

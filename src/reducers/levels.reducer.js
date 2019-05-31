@@ -12,7 +12,7 @@ export default function(state = initialState, action) {
         let { level, moves } = action.payload;
         return state.set(
             'completions',
-            state.get('completions').set(level, moves)
+            state.get('completions').set('' + level, moves)
         );
     } else {
         return state;
