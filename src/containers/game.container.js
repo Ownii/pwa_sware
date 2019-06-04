@@ -6,7 +6,7 @@ import Game from '../components/AnimGame';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
 import FinishGame from '../components/FinishGame';
-import { mdiRestart, mdiArrowLeft } from '@mdi/js';
+import { mdiRestart, mdiArrowLeft, mdiUndo } from '@mdi/js';
 import Icon from '@mdi/react';
 import Button from '../components/Button';
 import { finishLevel } from '../actions/levels.actions';
@@ -120,6 +120,8 @@ class GameContainer extends Component {
         });
     }
 
+    undo() {}
+
     render() {
         const { level, moves } = this.state;
         const { onBack, onNextLevel } = this.props;
@@ -149,7 +151,7 @@ class GameContainer extends Component {
                 <Button
                     onClick={onBack}
                     icon={mdiArrowLeft}
-                    className={'-ml-2'}
+                    className={'-mb-2'}
                 />
                 <div className={'flex flex-row justify-between w-full'}>
                     <Card top={'Züge'} value={moves.toString()} />
@@ -159,8 +161,13 @@ class GameContainer extends Component {
                         bottom={'Zügen'}
                     />
                     <Card
+                        onClick={this.undo.bind(this)}
+                        top={'Rückgängig'}
+                        value={<Icon path={mdiUndo} size={1.4} />}
+                    />
+                    <Card
                         onClick={this.restart.bind(this)}
-                        top={'Reset'}
+                        top={'Neustart'}
                         value={<Icon path={mdiRestart} size={1.4} />}
                     />
                 </div>

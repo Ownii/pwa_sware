@@ -23,28 +23,29 @@ export class Home extends Component {
     }
 
     render() {
-        const { play } = this.state;
-        const { levels } = this.props;
-        if (play >= 0) return this.renderPlayingGame();
         return (
-            <LevelSelection
-                levels={levels}
-                onSelectLevel={index => this.setState({ play: index })}
-            />
+            <div className={'flex items-start w-100 m-auto'}>
+                {this.renderContent()}
+            </div>
         );
     }
 
-    renderPlayingGame() {
+    renderContent() {
         const { play } = this.state;
         const { levels } = this.props;
-        return (
-            <div className={'flex items-start w-80 m-auto'}>
+        if (play >= 0)
+            return (
                 <GameContainer
                     level={levels.get(play)}
                     onBack={() => this.showMenu()}
                     onNextLevel={this.onNextLevel.bind(this)}
                 />
-            </div>
+            );
+        return (
+            <LevelSelection
+                levels={levels}
+                onSelectLevel={index => this.setState({ play: index })}
+            />
         );
     }
 }

@@ -108,8 +108,8 @@ class Game extends Component {
             <div className={'mt-3'}>
                 <canvas
                     ref={ref => (this.canvas = ref)}
-                    width={320}
-                    height={320}
+                    width={400}
+                    height={400}
                 />
             </div>
         );

@@ -7,20 +7,22 @@ class Card extends Component {
         const { top, value, bottom, onClick } = this.props;
         return (
             <div
-                onClick={onClick}
-                className={
-                    'flex flex-col items-center bg-white rounded py-4 w-24'
-                }
+                className={'w-24 h-24 p-2 ' + (onClick ? 'cursor-pointer' : '')}
             >
-                <span className={'text-grey-dark text-xs'}>
-                    {top.toUpperCase()}
-                </span>
-                <span className={'my-1 text-3xl'}>{value}</span>
-                {bottom && (
-                    <span className={'text-grey-dark text-xs'}>
-                        {bottom.toUpperCase()}
+                <div
+                    onClick={onClick}
+                    className={
+                        'flex flex-col items-center bg-white rounded h-full w-full justify-around py-2'
+                    }
+                >
+                    <span className={'text-grey-dark text-xxs h-3'}>
+                        {top && top.toUpperCase()}
                     </span>
-                )}
+                    <span className={'text-3xl'}>{value}</span>
+                    <span className={'text-grey-dark text-xxs h-3'}>
+                        {bottom && bottom.toUpperCase()}
+                    </span>
+                </div>
             </div>
         );
     }
