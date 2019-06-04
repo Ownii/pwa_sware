@@ -8,7 +8,8 @@ import {
     COLOR_ORANGE,
     COLOR_RED,
     COLOR_GREEN,
-    COLOR_PURPLE
+    COLOR_PURPLE,
+    COLOR_BROWN
 } from '../utils/constants';
 
 export default {
@@ -92,13 +93,13 @@ export default {
             x: 2,
             y: 3,
             type: BLOCK_TYPE_MOVE,
-            color: 'COLOR_BROWN'
+            color: COLOR_BROWN
         },
         {
             x: 0,
             y: 6,
             type: BLOCK_TYPE_TARGET,
-            color: 'COLOR_BROWN'
+            color: COLOR_BROWN
         },
         {
             x: 0,

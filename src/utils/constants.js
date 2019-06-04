@@ -9,6 +9,7 @@ export const COLOR_ORANGE = 3;
 export const COLOR_PURPLE = 4;
 export const COLOR_LIME = 5;
 export const COLOR_GREY = 6;
+export const COLOR_BROWN = 7;
 
 export const COLOR = {
     [COLOR_RED]: '#F44336',
@@ -17,7 +18,8 @@ export const COLOR = {
     [COLOR_ORANGE]: '#FFC107',
     [COLOR_PURPLE]: '#9C27B0',
     [COLOR_LIME]: '#CDDC39',
-    [COLOR_GREY]: '#9E9E9E'
+    [COLOR_GREY]: '#9E9E9E',
+    [COLOR_BROWN]: '#795548'
 };
 
 export const alphaColor = (color, alpha) => {
