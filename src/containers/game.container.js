@@ -18,8 +18,9 @@ class GameContainer extends Component {
         super(props);
         this.state = {
             level: fromJS(props.level.toJS()),
-            moves: 0
+            moveHistory: []
         };
+        this.animVal = 0;
     }
 
     componentDidUpdate(prevProps) {
@@ -39,8 +40,8 @@ class GameContainer extends Component {
         this.move(0, 1);
     }
 
-    move(stepX, stepY) {
-        const { level, moves } = this.state;
+    move(stepX, stepY, addMove = true) {
+        const { level, moveHistory } = this.state;
         const { finishLevel } = this.props;
         const blocks = level.get('blocks');
         let sortedBlocks = blocks.sort(
@@ -69,13 +70,19 @@ class GameContainer extends Component {
                 sortedBlocks = sortedBlocks.set(i, block);
             }
         }
-        this.setState({ level: level.set('blocks', sortedBlocks) });
+        let mutatedLevel = level.set('blocks', sortedBlocks);
         if (moved) {
-            this.setState({
-                moves: moves + 1
-            });
-            if (this.checkIfFinished()) finishLevel(level.get('id'), moves + 1);
+            this.animVal++;
+            if (addMove) {
+                moveHistory.push([stepX, stepY]);
+            }
+            if (this.checkIfFinished())
+                finishLevel(level.get('id'), moveHistory.length);
         }
+        this.setState({
+            level: mutatedLevel,
+            moveHistory: moveHistory
+        });
     }
 
     getBlockAt(x, y, _blocks) {
@@ -116,14 +123,23 @@ class GameContainer extends Component {
         const { level } = this.props;
         this.setState({
             level: fromJS(level.toJS()),
-            moves: 0
+            moveHistory: []
         });
     }
 
-    undo() {}
+    undo() {
+        const { moveHistory } = this.state;
+        let lastMove = moveHistory.pop();
+        if (lastMove) {
+            this.move(lastMove[0] * -1, lastMove[1] * -1, false);
+            this.setState({
+                moveHistory: moveHistory
+            });
+        }
+    }
 
     render() {
-        const { level, moves } = this.state;
+        const { level, moveHistory } = this.state;
         const { onBack, onNextLevel } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
@@ -141,7 +157,7 @@ class GameContainer extends Component {
             <div className={'w-full'}>
                 {this.checkIfFinished() && (
                     <FinishGame
-                        moves={moves}
+                        moves={moveHistory.length}
                         possibleIn={possibleIn}
                         onRestart={this.restart.bind(this)}
                         onBack={onBack}
@@ -154,7 +170,7 @@ class GameContainer extends Component {
                     className={'-mb-2'}
                 />
                 <div className={'flex flex-row justify-between w-full'}>
-                    <Card top={'Züge'} value={moves.toString()} />
+                    <Card top={'Züge'} value={moveHistory.length.toString()} />
                     <Card
                         top={'Möglich in'}
                         value={possibleIn.toString()}
@@ -172,7 +188,7 @@ class GameContainer extends Component {
                     />
                 </div>
                 <Swipeable {...config}>
-                    <Game size={size} blocks={blocks} anim={moves} />
+                    <Game size={size} blocks={blocks} anim={this.animVal} />
                 </Swipeable>
             </div>
         );
