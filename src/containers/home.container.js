@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+import { compose } from 'redux';
+import { List, Map } from 'immutable';
 import PropTypes from 'prop-types';
 import GameContainer from './game.container';
 import LevelSelection from './levelselection.container';
+import { playLevel } from '../actions/play.actions';
 
 export class Home extends Component {
     constructor(props) {
@@ -31,12 +33,10 @@ export class Home extends Component {
     }
 
     renderContent() {
-        const { play } = this.state;
-        const { levels } = this.props;
-        if (play >= 0)
+        const { levels, playLevel, play } = this.props;
+        if (play)
             return (
                 <GameContainer
-                    level={levels.get(play)}
                     onBack={() => this.showMenu()}
                     onNextLevel={this.onNextLevel.bind(this)}
                 />
@@ -44,21 +44,28 @@ export class Home extends Component {
         return (
             <LevelSelection
                 levels={levels}
-                onSelectLevel={index => this.setState({ play: index })}
+                onSelectLevel={index => playLevel(levels.get(index))}
             />
         );
     }
 }
-const mapDispatchToProps = () => {
-    return {};
-};
-const mapStateToProps = ({ levels }) => {
+const mapDispatchToProps = dispatch => ({
+    playLevel: compose(
+        dispatch,
+        playLevel
+    )
+});
+
+const mapStateToProps = ({ levels, play }) => {
     return {
-        levels: levels.get('levels')
+        levels: levels.get('levels'),
+        play: play.get('level')
     };
 };
 Home.propTypes = {
-    levels: PropTypes.instanceOf(List)
+    levels: PropTypes.instanceOf(List),
+    playLevel: PropTypes.func,
+    play: PropTypes.instanceOf(Map)
 };
 
 export default connect(
