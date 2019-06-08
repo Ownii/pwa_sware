@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import Card from '../components/Card';
 import Game from '../components/AnimGame';
 import { Swipeable } from 'react-swipeable';
 import FinishGame from '../components/FinishGame';
-import { mdiRestart, mdiArrowLeft, mdiUndo } from '@mdi/js';
+import { mdiArrowLeft, mdiRestart, mdiUndo } from '@mdi/js';
 import Icon from '@mdi/react';
 import Button from '../components/Button';
 import { finishLevel } from '../actions/levels.actions';
 import {
-    moveRight,
-    moveLeft,
+    goToMenu,
     moveDown,
+    moveLeft,
+    moveRight,
     moveUp,
-    undo,
     restart,
-    goToMenu
+    undo
 } from '../actions/play.actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -24,6 +24,7 @@ import {
     getCurrentMoveCount,
     isLevelCompleted
 } from '../selectors/play.selectors';
+import { withTranslation } from 'react-i18next';
 
 class GameContainer extends Component {
     render() {
@@ -37,7 +38,8 @@ class GameContainer extends Component {
             moves,
             undo,
             restart,
-            isCompleted
+            isCompleted,
+            t
         } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
@@ -60,20 +62,20 @@ class GameContainer extends Component {
                     className={'-mb-2'}
                 />
                 <div className={'flex flex-row justify-between w-full'}>
-                    <Card top={'Züge'} value={moves.toString()} />
+                    <Card top={t('moves')} value={moves.toString()} />
                     <Card
-                        top={'Möglich in'}
+                        top={t('possibleIn')}
                         value={possibleIn.toString()}
-                        bottom={'Zügen'}
+                        bottom={t('inMoves')}
                     />
                     <Card
                         onClick={undo}
-                        top={'Rückgängig'}
+                        top={t('undo')}
                         value={<Icon path={mdiUndo} size={1.4} />}
                     />
                     <Card
                         onClick={restart}
-                        top={'Neustart'}
+                        top={t('reset')}
                         value={<Icon path={mdiRestart} size={1.4} />}
                     />
                 </div>
@@ -92,11 +94,12 @@ GameContainer.propTypes = {
     moveRight: PropTypes.func,
     moveUp: PropTypes.func,
     moveDown: PropTypes.func,
-    moves: PropTypes.instanceOf(List),
+    moves: PropTypes.number,
     restart: PropTypes.func,
     undo: PropTypes.func,
     goToMenu: PropTypes.func,
-    isCompleted: PropTypes.bool
+    isCompleted: PropTypes.bool,
+    t: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -144,4 +147,4 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(GameContainer);
+)(withTranslation()(GameContainer));

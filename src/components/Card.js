@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Icon from '@mdi/react';
 import PropTypes from 'prop-types';
 
 class Card extends Component {

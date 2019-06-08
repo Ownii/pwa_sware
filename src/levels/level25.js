@@ -2,14 +2,11 @@ import {
     BLOCK_TYPE_MOVE,
     BLOCK_TYPE_TARGET,
     BLOCK_TYPE_WALL,
-    COLOR_BLUE,
-    COLOR_GREY,
-    COLOR_LIME,
-    COLOR_ORANGE,
-    COLOR_RED,
+    COLOR_BROWN,
     COLOR_GREEN,
+    COLOR_GREY,
     COLOR_PURPLE,
-    COLOR_BROWN
+    COLOR_RED
 } from '../utils/constants';
 
 export default {

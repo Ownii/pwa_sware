@@ -3,11 +3,8 @@ import {
     BLOCK_TYPE_TARGET,
     BLOCK_TYPE_WALL,
     COLOR_BLUE,
-    COLOR_GREY,
-    COLOR_LIME,
-    COLOR_ORANGE,
-    COLOR_RED,
     COLOR_GREEN,
+    COLOR_GREY,
     COLOR_PURPLE
 } from '../utils/constants';
 

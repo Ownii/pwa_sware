@@ -4,11 +4,7 @@ import {
     BLOCK_TYPE_WALL,
     COLOR_BLUE,
     COLOR_GREY,
-    COLOR_LIME,
-    COLOR_ORANGE,
-    COLOR_RED,
-    COLOR_GREEN,
-    COLOR_PURPLE
+    COLOR_RED
 } from '../utils/constants';
 
 export default {

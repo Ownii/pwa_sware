@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
-import { mdiArrowRight, mdiApps } from '@mdi/js';
+import { mdiApps, mdiArrowRight } from '@mdi/js';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { finishLevel } from '../actions/levels.actions';
 import { goToMenu, playLevel, restart } from '../actions/play.actions';
 import { getNextLevel } from '../selectors/play.selectors';
 import { Map } from 'immutable';
+import { withTranslation } from 'react-i18next';
 
 class FinishGame extends Component {
     render() {
@@ -17,7 +18,8 @@ class FinishGame extends Component {
             restart,
             goToMenu,
             nextLevel,
-            playLevel
+            playLevel,
+            t
         } = this.props;
         return (
             <div
@@ -29,26 +31,32 @@ class FinishGame extends Component {
                     top: '0'
                 }}
             >
-                <h2 className="mt-16 mb-16">Level abgeschlossen</h2>
+                <h2 className="mt-16 mb-16">{t('levelCompleted')}</h2>
                 {moves > possibleIn && (
                     <div>
                         <p className="mb-8">
-                            Du hast das Level in <b>{moves}</b> Zügen gelöst
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: t('neededMoves', { moves })
+                                }}
+                            />
                         </p>
                         <p>
-                            Es ist möglich gewesen in <b>{possibleIn}</b> Zügen
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: t('possibleInMoves', { possibleIn })
+                                }}
+                            />
                         </p>
                         <Button
                             className="mt-4"
-                            text={'Erneut versuchen'}
+                            text={t('retry')}
                             onClick={restart}
                         />
                     </div>
                 )}
-                {moves === possibleIn && (
-                    <p>Super du hast die optimale Lösung gefunden</p>
-                )}
-                {moves < possibleIn && <p>Keiner mag Schummler</p>}
+                {moves === possibleIn && <p>{t('bestMoves')}</p>}
+                {moves < possibleIn && <p>{t('notPossible')}</p>}
                 <div className="flex flex-row justify-between p-2">
                     <Button onClick={goToMenu} icon={mdiApps} />
                     {nextLevel && (
@@ -69,7 +77,8 @@ FinishGame.propTypes = {
     restart: PropTypes.func,
     goToMenu: PropTypes.func,
     nextLevel: PropTypes.instanceOf(Map),
-    playLevel: PropTypes.func
+    playLevel: PropTypes.func,
+    t: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -100,4 +109,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(FinishGame);
+)(withTranslation()(FinishGame));
