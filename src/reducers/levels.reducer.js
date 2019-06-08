@@ -10,11 +10,13 @@ const initialState = Map({
 export default function(state = initialState, action) {
     if (action.type === FINISH_LEVEL) {
         let { level, moves } = action.payload;
-        return state.set(
-            'completions',
-            state.get('completions').set('' + level.get('id'), moves)
-        );
-    } else {
-        return state;
+        let best = state.get('completions').get('' + level.get('id'));
+        if (!best || moves < best) {
+            return state.set(
+                'completions',
+                state.get('completions').set('' + level.get('id'), moves)
+            );
+        }
     }
+    return state;
 }
