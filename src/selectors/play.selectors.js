@@ -47,3 +47,7 @@ export const getNextLevel = state => {
 export const getCurrentMoveCount = state => {
     return state.play.get('moveHistory').size;
 };
+
+export const getLastMove = state => {
+    return state.play.get('moveHistory').last();
+};

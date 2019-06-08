@@ -20,7 +20,10 @@ import {
 } from '../actions/play.actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { isLevelCompleted } from '../selectors/play.selectors';
+import {
+    getCurrentMoveCount,
+    isLevelCompleted
+} from '../selectors/play.selectors';
 
 class GameContainer extends Component {
     render() {
@@ -31,7 +34,7 @@ class GameContainer extends Component {
             moveUp,
             moveDown,
             level,
-            moveHistory,
+            moves,
             undo,
             restart,
             isCompleted
@@ -57,7 +60,7 @@ class GameContainer extends Component {
                     className={'-mb-2'}
                 />
                 <div className={'flex flex-row justify-between w-full'}>
-                    <Card top={'Züge'} value={moveHistory.size.toString()} />
+                    <Card top={'Züge'} value={moves.toString()} />
                     <Card
                         top={'Möglich in'}
                         value={possibleIn.toString()}
@@ -75,7 +78,7 @@ class GameContainer extends Component {
                     />
                 </div>
                 <Swipeable {...config}>
-                    <Game size={size} blocks={blocks} anim={moveHistory.size} />
+                    <Game size={size} blocks={blocks} anim={moves} />
                 </Swipeable>
             </div>
         );
@@ -89,7 +92,7 @@ GameContainer.propTypes = {
     moveRight: PropTypes.func,
     moveUp: PropTypes.func,
     moveDown: PropTypes.func,
-    moveHistory: PropTypes.instanceOf(List),
+    moves: PropTypes.instanceOf(List),
     restart: PropTypes.func,
     undo: PropTypes.func,
     goToMenu: PropTypes.func,
@@ -133,7 +136,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => {
     return {
         level: state.play.get('level'),
-        moveHistory: state.play.get('moveHistory'),
+        moves: getCurrentMoveCount(state),
         isCompleted: isLevelCompleted(state)
     };
 };

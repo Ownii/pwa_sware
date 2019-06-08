@@ -7,7 +7,8 @@ import {
     move,
     removeLastFromMoveHistory,
     RESTART,
-    playLevel
+    playLevel,
+    restart
 } from '../actions/play.actions';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { fromJS } from 'immutable';
@@ -15,15 +16,24 @@ import { getLevelById } from '../selectors/levels.selectors';
 import {
     getCurrentLevel,
     isLevelCompleted,
-    getCurrentMoveCount
+    getCurrentMoveCount,
+    getLastMove
 } from '../selectors/play.selectors';
 import { finishLevel } from '../actions/levels.actions';
 
 function* undo() {
-    const lastMove = yield select(state => {
-        return state.play.get('moveHistory').last();
-    });
-    yield call(moveBlocks, move(lastMove[0] * -1, lastMove[1] * -1, false));
+    const moves = yield select(getCurrentMoveCount);
+    if (moves === 1) {
+        yield put(restart());
+    } else {
+        const lastMove = yield select(getLastMove);
+        if (lastMove) {
+            yield call(
+                moveBlocks,
+                move(lastMove[0] * -1, lastMove[1] * -1, false)
+            );
+        }
+    }
 }
 
 function* moveBlocks(action) {
@@ -74,7 +84,7 @@ function* moveBlocks(action) {
     }
 }
 
-function* restart() {
+function* restartLevel() {
     const currentLevel = yield select(getCurrentLevel);
     const level = yield select(getLevelById(currentLevel.get('id')));
     yield put(playLevel(level));
@@ -100,5 +110,5 @@ function getBlockAt(x, y, _blocks, level) {
 export default function*() {
     yield takeEvery(MOVE, moveBlocks);
     yield takeEvery(UNDO, undo);
-    yield takeEvery(RESTART, restart);
+    yield takeEvery(RESTART, restartLevel);
 }
