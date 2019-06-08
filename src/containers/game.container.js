@@ -92,7 +92,7 @@ GameContainer.propTypes = {
     moveRight: PropTypes.func,
     moveUp: PropTypes.func,
     moveDown: PropTypes.func,
-    moves: PropTypes.instanceOf(List),
+    moves: PropTypes.number,
     restart: PropTypes.func,
     undo: PropTypes.func,
     goToMenu: PropTypes.func,

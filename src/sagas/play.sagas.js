@@ -39,7 +39,13 @@ function* undo() {
 function* moveBlocks(action) {
     const stepX = action.payload.x;
     const stepY = action.payload.y;
+    let addToHistory = action.payload.addToHistory;
     if (stepX === 0 && stepY === 0) return;
+    const lastMove = yield select(getLastMove);
+    if (lastMove && lastMove[0] * -1 === stepX && lastMove[1] * -1 === stepY) {
+        addToHistory = false;
+    }
+
     const currentLevel = yield select(getCurrentLevel);
     let level = fromJS(currentLevel.toJS());
     const blocks = level.get('blocks');
@@ -71,7 +77,7 @@ function* moveBlocks(action) {
     level = level.set('blocks', sortedBlocks);
     if (movedAnything) {
         yield put(moved(level));
-        if (action.payload.addToHistory) {
+        if (addToHistory) {
             yield put(addToMoveHistory([stepX, stepY]));
         } else {
             yield put(removeLastFromMoveHistory());
