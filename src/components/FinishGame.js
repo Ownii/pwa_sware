@@ -2,16 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import { mdiArrowRight, mdiApps } from '@mdi/js';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { finishLevel } from '../actions/levels.actions';
+import { goToMenu, playLevel, restart } from '../actions/play.actions';
+import { getNextLevel } from '../selectors/play.selectors';
 
 class FinishGame extends Component {
     render() {
         const {
             moves,
             possibleIn,
-            onRestart,
-            onBack,
-            onNextLevel
+            restart,
+            goToMenu,
+            nextLevel,
+            playLevel
         } = this.props;
+        console.log(nextLevel);
         return (
             <div
                 className="absolute w-full h-full text-center flex flex-col justify-between"
@@ -40,11 +47,16 @@ class FinishGame extends Component {
                 <Button
                     className="mt-4"
                     text={'Erneut versuchen'}
-                    onClick={onRestart}
+                    onClick={restart}
                 />
                 <div className="flex flex-row justify-between p-2">
-                    <Button onClick={onBack} icon={mdiApps} />
-                    <Button onClick={onNextLevel} icon={mdiArrowRight} />
+                    <Button onClick={goToMenu} icon={mdiApps} />
+                    {nextLevel && (
+                        <Button
+                            onClick={() => playLevel(nextLevel)}
+                            icon={mdiArrowRight}
+                        />
+                    )}
                 </div>
             </div>
         );
@@ -54,9 +66,38 @@ class FinishGame extends Component {
 FinishGame.propTypes = {
     moves: PropTypes.number.isRequired,
     possibleIn: PropTypes.number.isRequired,
-    onRestart: PropTypes.func,
-    onBack: PropTypes.func,
-    onNextLevel: PropTypes.func
+    restart: PropTypes.func,
+    goToMenu: PropTypes.func,
+    nextLevel: PropTypes.func,
+    playLevel
 };
 
-export default FinishGame;
+const mapStateToProps = state => ({
+    moves: state.play.get('moveHistory').size,
+    possibleIn: state.play.get('level').get('possibleIn'),
+    nextLevel: getNextLevel(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+    finishLevel: compose(
+        dispatch,
+        finishLevel
+    ),
+    restart: compose(
+        dispatch,
+        restart
+    ),
+    goToMenu: compose(
+        dispatch,
+        goToMenu
+    ),
+    playLevel: compose(
+        dispatch,
+        playLevel
+    )
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FinishGame);

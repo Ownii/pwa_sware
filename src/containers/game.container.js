@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import Card from '../components/Card';
 import Game from '../components/AnimGame';
 import { Swipeable } from 'react-swipeable';
@@ -51,15 +51,7 @@ class GameContainer extends Component {
         };
         return (
             <div className={'w-full'}>
-                {isCompleted && (
-                    <FinishGame
-                        moves={moveHistory.size}
-                        possibleIn={possibleIn}
-                        onRestart={restart}
-                        onBack={goToMenu}
-                        onNextLevel={onNextLevel}
-                    />
-                )}
+                {isCompleted && <FinishGame />}
                 <Button
                     onClick={goToMenu}
                     icon={mdiArrowLeft}
@@ -100,7 +92,7 @@ GameContainer.propTypes = {
     moveRight: PropTypes.func,
     moveUp: PropTypes.func,
     moveDown: PropTypes.func,
-    moveHistory: PropTypes.array,
+    moveHistory: PropTypes.instanceOf(List),
     restart: PropTypes.func,
     undo: PropTypes.func,
     goToMenu: PropTypes.func,

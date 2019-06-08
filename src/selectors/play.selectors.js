@@ -1,4 +1,5 @@
 import { BLOCK_TYPE_TARGET } from '../utils/constants';
+import { getLevelById } from './levels.selectors';
 
 export const isLevelCompleted = state => {
     const level = getCurrentLevel(state);
@@ -36,4 +37,9 @@ export const getBlockAt = (x, y, _blocks) => state => {
         }
     }
     return false;
+};
+
+export const getNextLevel = state => {
+    const currentLevel = getCurrentLevel(state);
+    return getLevelById(currentLevel.get('id') + 1)(state);
 };

@@ -11,7 +11,7 @@ import {
 } from '../actions/play.actions';
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { fromJS } from 'immutable';
-import { getLevelById } from '../selectors/levels.slectors';
+import { getLevelById } from '../selectors/levels.selectors';
 import { getCurrentLevel } from '../selectors/play.selectors';
 
 function* undo() {
