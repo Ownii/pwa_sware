@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import Level from '../components/Level';
+import { compose } from 'redux';
+import { playLevel } from '../actions/play.actions';
 
 class LevelSelection extends Component {
     render() {
-        const { levels, completions, onSelectLevel } = this.props;
+        const { levels, completions, playLevel } = this.props;
         return (
             <div className={'p-2 flex content-start flex-wrap'}>
-                {levels.toJS().map((level, index) => {
+                {levels.toJS().map(level => {
                     let neededMoves = completions.get('' + level.id);
                     return (
                         <Level
-                            onClick={() => onSelectLevel(index)}
+                            onClick={() => playLevel(fromJS(level))}
                             className={''}
                             key={level.id}
                             id={level.id}
-                            completed={neededMoves}
+                            completed={neededMoves !== undefined}
                             completedBest={neededMoves === level.possibleIn}
                         />
                     );
@@ -30,15 +32,19 @@ class LevelSelection extends Component {
 LevelSelection.propTypes = {
     levels: PropTypes.instanceOf(List).isRequired,
     completions: PropTypes.instanceOf(Map),
-    onSelectLevel: PropTypes.func.isRequired
+    playLevel: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = () => {
-    return {};
-};
+const mapDispatchToProps = dispatch => ({
+    playLevel: compose(
+        dispatch,
+        playLevel
+    )
+});
 const mapStateToProps = ({ levels }) => {
     return {
-        completions: levels.get('completions')
+        completions: levels.get('completions'),
+        levels: levels.get('levels')
     };
 };
 

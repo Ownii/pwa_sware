@@ -8,22 +8,6 @@ import LevelSelection from './levelselection.container';
 import { playLevel } from '../actions/play.actions';
 
 export class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    onNextLevel() {
-        const { play } = this.state;
-        const { levels } = this.props;
-        if (play < levels.size) this.setState({ play: play + 1 });
-        else this.showMenu();
-    }
-
-    showMenu() {
-        this.setState({ play: undefined });
-    }
-
     render() {
         return (
             <div className={'flex items-start w-100 m-auto'}>
@@ -34,13 +18,7 @@ export class Home extends Component {
 
     renderContent() {
         const { levels, playLevel, play } = this.props;
-        if (play)
-            return (
-                <GameContainer
-                    onBack={() => this.showMenu()}
-                    onNextLevel={this.onNextLevel.bind(this)}
-                />
-            );
+        if (play) return <GameContainer />;
         return (
             <LevelSelection
                 levels={levels}

@@ -43,3 +43,7 @@ export const getNextLevel = state => {
     const currentLevel = getCurrentLevel(state);
     return getLevelById(currentLevel.get('id') + 1)(state);
 };
+
+export const getCurrentMoveCount = state => {
+    return state.play.get('moveHistory').size;
+};

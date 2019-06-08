@@ -7,6 +7,7 @@ import { compose } from 'redux';
 import { finishLevel } from '../actions/levels.actions';
 import { goToMenu, playLevel, restart } from '../actions/play.actions';
 import { getNextLevel } from '../selectors/play.selectors';
+import { Map } from 'immutable';
 
 class FinishGame extends Component {
     render() {
@@ -18,7 +19,6 @@ class FinishGame extends Component {
             nextLevel,
             playLevel
         } = this.props;
-        console.log(nextLevel);
         return (
             <div
                 className="absolute w-full h-full text-center flex flex-col justify-between"
@@ -38,17 +38,17 @@ class FinishGame extends Component {
                         <p>
                             Es ist möglich gewesen in <b>{possibleIn}</b> Zügen
                         </p>
+                        <Button
+                            className="mt-4"
+                            text={'Erneut versuchen'}
+                            onClick={restart}
+                        />
                     </div>
                 )}
                 {moves === possibleIn && (
                     <p>Super du hast die optimale Lösung gefunden</p>
                 )}
                 {moves < possibleIn && <p>Keiner mag Schummler</p>}
-                <Button
-                    className="mt-4"
-                    text={'Erneut versuchen'}
-                    onClick={restart}
-                />
                 <div className="flex flex-row justify-between p-2">
                     <Button onClick={goToMenu} icon={mdiApps} />
                     {nextLevel && (
@@ -68,8 +68,8 @@ FinishGame.propTypes = {
     possibleIn: PropTypes.number.isRequired,
     restart: PropTypes.func,
     goToMenu: PropTypes.func,
-    nextLevel: PropTypes.func,
-    playLevel
+    nextLevel: PropTypes.instanceOf(Map),
+    playLevel: PropTypes.func
 };
 
 const mapStateToProps = state => ({

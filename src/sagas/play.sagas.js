@@ -12,7 +12,12 @@ import {
 import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { fromJS } from 'immutable';
 import { getLevelById } from '../selectors/levels.selectors';
-import { getCurrentLevel } from '../selectors/play.selectors';
+import {
+    getCurrentLevel,
+    isLevelCompleted,
+    getCurrentMoveCount
+} from '../selectors/play.selectors';
+import { finishLevel } from '../actions/levels.actions';
 
 function* undo() {
     const lastMove = yield select(state => {
@@ -60,6 +65,11 @@ function* moveBlocks(action) {
             yield put(addToMoveHistory([stepX, stepY]));
         } else {
             yield put(removeLastFromMoveHistory());
+        }
+        if (yield select(isLevelCompleted)) {
+            yield put(
+                finishLevel(currentLevel, yield select(getCurrentMoveCount))
+            );
         }
     }
 }

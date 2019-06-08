@@ -26,7 +26,6 @@ class GameContainer extends Component {
     render() {
         const {
             goToMenu,
-            onNextLevel,
             moveRight,
             moveLeft,
             moveUp,
@@ -85,8 +84,6 @@ class GameContainer extends Component {
 
 GameContainer.propTypes = {
     level: PropTypes.instanceOf(Map),
-    onBack: PropTypes.func,
-    onNextLevel: PropTypes.func,
     finishLevel: PropTypes.func,
     moveLeft: PropTypes.func,
     moveRight: PropTypes.func,
