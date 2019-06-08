@@ -36,15 +36,49 @@ function* undo() {
     }
 }
 
+function* isUndoMove(stepX, stepY, _blocks) {
+    const lastMove = yield select(getLastMove);
+    if (lastMove && lastMove[0] * -1 === stepX && lastMove[1] * -1 === stepY) {
+        const moves = yield select(getCurrentMoveCount);
+        if (moves > 1) return true;
+        const likeStart = yield call(isLikeStart, _blocks);
+        if (likeStart) return true;
+    }
+    return false;
+}
+
+function* isLikeStart(_blocks) {
+    const currentLevel = yield select(getCurrentLevel);
+    const startLevel = yield select(getLevelById(currentLevel.get('id')));
+    const startLevelBlocks = startLevel.get('blocks');
+    for (let i = 0; i < startLevelBlocks.size; i++) {
+        let block = startLevelBlocks.get(i);
+        if (block.get('type') === BLOCK_TYPE_MOVE) {
+            let curBlock = getBlockAt(
+                block.get('x'),
+                block.get('y'),
+                _blocks,
+                currentLevel
+            );
+            if (
+                !curBlock ||
+                !(
+                    curBlock.get('type') === block.get('type') &&
+                    curBlock.get('color') === block.get('color')
+                )
+            ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 function* moveBlocks(action) {
     const stepX = action.payload.x;
     const stepY = action.payload.y;
-    let addToHistory = action.payload.addToHistory;
     if (stepX === 0 && stepY === 0) return;
-    const lastMove = yield select(getLastMove);
-    if (lastMove && lastMove[0] * -1 === stepX && lastMove[1] * -1 === stepY) {
-        addToHistory = false;
-    }
 
     const currentLevel = yield select(getCurrentLevel);
     let level = fromJS(currentLevel.toJS());
@@ -77,7 +111,7 @@ function* moveBlocks(action) {
     level = level.set('blocks', sortedBlocks);
     if (movedAnything) {
         yield put(moved(level));
-        if (addToHistory) {
+        if (!(yield call(isUndoMove, stepX, stepY, sortedBlocks))) {
             yield put(addToMoveHistory([stepX, stepY]));
         } else {
             yield put(removeLastFromMoveHistory());
