@@ -9,7 +9,8 @@ function AnimGame(props) {
     const animation = useSpring({
         number: anim + 1,
         from: { number: anim },
-        config: { duration: 200 }
+        config: { duration: 200 },
+        reset: true
     });
     const AGame = animated(Game);
     return (

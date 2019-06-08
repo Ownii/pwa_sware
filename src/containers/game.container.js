@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map, fromJS } from 'immutable';
+import { Map } from 'immutable';
 import Card from '../components/Card';
 import Game from '../components/AnimGame';
-import { BLOCK_TYPE_MOVE, BLOCK_TYPE_TARGET } from '../utils/constants';
 import { Swipeable } from 'react-swipeable';
 import FinishGame from '../components/FinishGame';
 import { mdiRestart, mdiArrowLeft, mdiUndo } from '@mdi/js';
@@ -16,53 +15,17 @@ import {
     moveDown,
     moveUp,
     undo,
-    restart
+    restart,
+    goToMenu
 } from '../actions/play.actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { isLevelCompleted } from '../selectors/play.selectors';
 
 class GameContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    getBlockAt(x, y, _blocks) {
-        const { level } = this.props;
-        const blocks = _blocks ? _blocks : level.get('blocks');
-        const size = level.get('size');
-        if (x >= size || y >= size || y < 0 || x < 0) return true;
-        for (let i = 0; i < blocks.size; i++) {
-            let block = blocks.get(i);
-            if (
-                block.get('x') === x &&
-                block.get('y') === y &&
-                block.get('type') !== BLOCK_TYPE_TARGET
-            ) {
-                return block;
-            }
-        }
-        return false;
-    }
-
-    checkIfFinished() {
-        const { level } = this.props;
-        const blocks = level.get('blocks');
-        for (let i = 0; i < blocks.size; i++) {
-            let block = blocks.get(i);
-            let blockAt = this.getBlockAt(block.get('x'), block.get('y'));
-            if (
-                block.get('type') === BLOCK_TYPE_TARGET &&
-                (!blockAt || blockAt.get('color') !== block.get('color'))
-            ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     render() {
         const {
-            onBack,
+            goToMenu,
             onNextLevel,
             moveRight,
             moveLeft,
@@ -71,7 +34,8 @@ class GameContainer extends Component {
             level,
             moveHistory,
             undo,
-            restart
+            restart,
+            isCompleted
         } = this.props;
         const possibleIn = level.get('possibleIn');
         const size = level.get('size');
@@ -87,17 +51,17 @@ class GameContainer extends Component {
         };
         return (
             <div className={'w-full'}>
-                {this.checkIfFinished() && (
+                {isCompleted && (
                     <FinishGame
                         moves={moveHistory.size}
                         possibleIn={possibleIn}
                         onRestart={restart}
-                        onBack={onBack}
+                        onBack={goToMenu}
                         onNextLevel={onNextLevel}
                     />
                 )}
                 <Button
-                    onClick={onBack}
+                    onClick={goToMenu}
                     icon={mdiArrowLeft}
                     className={'-mb-2'}
                 />
@@ -138,7 +102,9 @@ GameContainer.propTypes = {
     moveDown: PropTypes.func,
     moveHistory: PropTypes.array,
     restart: PropTypes.func,
-    undo: PropTypes.func
+    undo: PropTypes.func,
+    goToMenu: PropTypes.func,
+    isCompleted: PropTypes.bool
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -169,12 +135,17 @@ const mapDispatchToProps = dispatch => ({
     restart: compose(
         dispatch,
         restart
+    ),
+    goToMenu: compose(
+        dispatch,
+        goToMenu
     )
 });
-const mapStateToProps = ({ play }) => {
+const mapStateToProps = state => {
     return {
-        level: play.get('level'),
-        moveHistory: play.get('moveHistory')
+        level: state.play.get('level'),
+        moveHistory: state.play.get('moveHistory'),
+        isCompleted: isLevelCompleted(state)
     };
 };
 
