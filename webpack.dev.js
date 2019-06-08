@@ -4,11 +4,11 @@ const CommonConfig = require('./webpack.common.js');
 
 module.exports = function(env) {
     return Merge(CommonConfig(env), {
-        mode: 'production',
+        mode: 'development',
         devtool: 'inline-source-map',
         devServer: {
             historyApiFallback: true,
-            host: '0.0.0.0',
+            host: 'localhost',
             disableHostCheck: true
         },
         plugins: [
