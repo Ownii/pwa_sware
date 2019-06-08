@@ -4,17 +4,20 @@ const CommonConfig = require('./webpack.common.js');
 
 module.exports = function(env) {
     return Merge(CommonConfig(env), {
+        mode: 'development',
         devtool: 'inline-source-map',
         devServer: {
             historyApiFallback: true,
-            host: '0.0.0.0',
+            host: 'localhost',
             disableHostCheck: true
         },
         plugins: [
             new webpack.DefinePlugin({
-                API_TARGET: JSON.stringify(
-                    'https://insert-your-online-api-here.net/'
-                ),
+                API_TARGET: JSON.stringify(''),
+                'process.env': {
+                    NODE_ENV: '"development"',
+                    PUBLIC_URL: '"https://sware-dev.ownii.com/"'
+                }
             })
         ]
     });

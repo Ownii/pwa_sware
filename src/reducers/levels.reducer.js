@@ -1,41 +1,22 @@
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import { FINISH_LEVEL } from '../actions/levels.actions';
-import {
-    BLOCK_TYPE_MOVE,
-    COLOR_RED,
-    BLOCK_TYPE_TARGET
-} from '../utils/constants';
+import allLevels from '../levels/allLevels';
 
 const initialState = Map({
-    levels: List.of(
-        Map({
-            id: 1,
-            possibleIn: 10,
-            size: 5,
-            blocks: List.of(
-                {
-                    type: BLOCK_TYPE_MOVE,
-                    color: COLOR_RED,
-                    x: 0,
-                    y: 0
-                },
-                {
-                    type: BLOCK_TYPE_TARGET,
-                    color: COLOR_RED,
-                    x: 4,
-                    y: 4
-                }
-            )
-        })
-    )
+    levels: allLevels,
+    completions: Map({})
 });
 
 export default function(state = initialState, action) {
-    switch (action.type) {
-        case FINISH_LEVEL:
-            return state;
-
-        default:
-            return state;
+    if (action.type === FINISH_LEVEL) {
+        let { level, moves } = action.payload;
+        let best = state.get('completions').get('' + level.get('id'));
+        if (!best || moves < best) {
+            return state.set(
+                'completions',
+                state.get('completions').set('' + level.get('id'), moves)
+            );
+        }
     }
+    return state;
 }

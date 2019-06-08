@@ -1,0 +1,13 @@
+{
+    "reset": "Reset",
+    "possibleIn": "Possible in",
+    "inMoves": "moves",
+    "moves": "moves",
+    "undo": "Undo",
+    "levelCompleted": "Level completed",
+    "neededMoves": "You completed the level in <b>{{moves}}</b> moves",
+    "possibleInMoves": "It is possible in <b>{{possibleIn}}</b> moves",
+    "retry": "Retry",
+    "bestMoves": "Great, you have found the optimal solution",
+    "notPossible": "Nobody likes cheaters."
+}

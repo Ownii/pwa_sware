@@ -1,0 +1,13 @@
+{
+    "reset": "Neustart",
+    "possibleIn": "Möglich in",
+    "inMoves": "Zügen",
+    "moves": "Züge",
+    "undo": "Rückgängig",
+    "levelCompleted": "Level abgeschlossen",
+    "neededMoves": "Du hast das Level in <b>{{moves}}</b> Zügen gelöst",
+    "possibleInMoves": "Es ist möglich gewesen in <b>{{possibleIn}}</b> Zügen",
+    "retry": "Erneut versuchen",
+    "bestMoves": "Super du hast die optimale Lösung gefunden",
+    "notPossible": "Keiner mag Schummler"
+}

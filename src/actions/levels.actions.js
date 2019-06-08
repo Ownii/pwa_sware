@@ -1,8 +1,11 @@
 export const FINISH_LEVEL = 'FINISH_LEVEL';
 
-export function finishLevel(moves) {
+export function finishLevel(level, moves) {
     return {
         type: FINISH_LEVEL,
-        payload: moves
+        payload: {
+            level,
+            moves
+        }
     };
 }

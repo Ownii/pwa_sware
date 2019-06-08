@@ -1,3 +1,25 @@
+html, body {
+    @apply bg-grey-lightest;
+    overscroll-behavior: contain;
+    margin: 0;
+    padding: 0;
+}
+
 @tailwind preflight;
 
 @tailwind utilities;
+
+
+/* Ripple effect */
+.ripple {
+    background-position: center;
+    transition: background 0.8s;
+}
+.ripple:hover {
+    background: #DDD radial-gradient(circle, transparent 1%, #DDD 1%) center/15000%;
+}
+.ripple:active {
+    background-color: #EEE;
+    background-size: 100%;
+    transition: background 0s;
+}

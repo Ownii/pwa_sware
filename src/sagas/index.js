@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
-import users from './users.sagas';
+import play from './play.sagas';
 
 export default function*() {
-    yield fork(users);
+    yield fork(play);
 }

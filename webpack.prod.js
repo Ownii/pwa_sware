@@ -5,18 +5,18 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function(env) {
     return Merge(CommonConfig(env), {
+        mode: 'production',
         plugins: [
             new UglifyJSPlugin({
                 compress: {
-                    drop_console: true
+                    drop_console: false
                 }
             }),
             new webpack.DefinePlugin({
-                API_TARGET: JSON.stringify(
-                    'https://insert-your-online-api-here.net/'
-                ),
+                API_TARGET: JSON.stringify(''),
                 'process.env': {
-                    NODE_ENV: '"production"'
+                    NODE_ENV: '"production"',
+                    PUBLIC_URL: '"https://sware.ownii.com/"'
                 }
             })
         ]
